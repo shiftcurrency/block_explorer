@@ -1,0 +1,8 @@
+<?php
+echo $this->element('blocktable');
+echo "\n";
+echo "\n";
+echo 'Latest transactions'."\n";
+foreach($this->data['transactions'] as $transaction):
+  echo $transaction['id'].' | '.$this->timeElapsed($transaction['time']).' | '.$transaction['amount']."\n";
+endforeach;

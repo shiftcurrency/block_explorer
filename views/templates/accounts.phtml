@@ -1,0 +1,82 @@
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#accounts').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ACCOUNT HERE" },
+    } );
+} );
+</script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Account Holders</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Account Holders</h1>
+    </div>
+    <p>The definitive list of Horizon users.</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Account Holders</h2>
+    </div>
+    <p>The definitive list of Horizon users.</p>
+  </div>
+</section>
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix" >
+              <table id="accounts" class="display" data-page-length='25'>
+                <thead>
+                  <tr>
+                    <th style="padding-left:10px;"><h5>#</h5></th>
+                    <th><h5>Account</h5></th>
+                    <th style="text-align:right;"><h5>Balance (HZ)</h5></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php $i = 0; foreach($this->data['accounts'] as $account): $i++; ?>
+                  <tr>
+                    <td><p>
+                        <?=$i?>
+                      </p></td>
+                    <td><p style="text-transform:uppercase;"><a href="?page=account&id=<?=$account['id']?>">
+                        <?php if(isset($this->data['knownAddresses'][$account['id']])): ?>
+                        <?=$this->data['knownAddresses'][$account['id']];?>
+                        <?php else: ?>
+                        <?=$account['rs']?>
+                        <?php endif; ?>
+                        </a></p></td>
+                    <td style="text-align:right;"><p class="greentext">
+                        <?=$account['balance']?>
+                      </p></td>
+                  </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td><p class="dropcap"> This page shows all of the Horizon accounts that have been created so far. You can find more information about any account by clicking in the <strong>ACCOUNT</strong> column.</p>
+                    <p>You can also sort this information by using the controls at the top.</p></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>

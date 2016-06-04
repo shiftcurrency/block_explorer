@@ -1,0 +1,14 @@
+<?php
+echo 'height, id, age, generator, transactions, amount, fees'."\n";
+foreach($this->data['blocks'] as $row):
+  echo $row['height'].' | ';
+  if(isset($prev))
+  {
+    echo $prev;
+  }
+  else {
+    echo $this->data['blocks'][1]['nextblock'];
+  }
+  echo ' | '.$this->timeElapsed($row['time']).' | '.$row['generator'].' | '. $row['numberoftransactions'].' | '.$row['totalamount'].' | '.$row['totalfee']."\n";
+  $prev = $row['previousblock'];
+endforeach;

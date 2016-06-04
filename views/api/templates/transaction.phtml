@@ -1,0 +1,24 @@
+<?php
+$data['Transaction']['id'] = $this->data['transaction']->transaction;
+if(isset($this->data['knownAddresses'][$this->data['transaction']->sender])):
+  $data['Transaction']['sender'] = $this->data['knownAddresses'][$this->data['transaction']->sender];
+else:
+  $data['Transaction']['sender'] = $this->data['transaction']->sender;
+endif;
+
+if(isset($this->data['knownAddresses'][$this->data['transaction']->recipient])):
+  $data['Transaction']['recipient'] = $this->data['knownAddresses'][$this->data['transaction']->recipient];
+else:
+  $data['Transaction']['recipient'] = $this->data['transaction']->recipient;
+endif;
+
+$data['Transaction']['amount'] = $this->data['transaction']->amountNQT/100000000;
+$data['Transaction']['fee'] = $this->data['transaction']->feeNQT/100000000;
+$data['Transaction']['block'] = $this->data['transaction']->height;
+$data['Transaction']['time'] = $this->data['transaction']->time;
+$data['transaction']['age'] = $this->timeElapsed($this->data['transaction']->time);
+$data['Transaction']['deadline'] = $this->data['transaction']->deadline;
+$data['Transaction']['confirmations'] = $this->data['transaction']->confirmations;
+$data['Transaction']['signature'] = $this->data['transaction']->signature;
+
+echo json_encode($data);

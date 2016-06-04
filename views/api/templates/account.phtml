@@ -1,0 +1,59 @@
+<?php
+$data['Account']['id'] = $this->data['id'];
+if(isset($this->data['knownAddresses'][$this->data['id']])):
+  $data['Account']['title'] = $this->data['knownAddresses'][$this->data['id']];
+endif;
+
+$i = 0;
+foreach($this->data['transactions'] as $transaction):
+  $i++;
+  $blockheight = null;
+  $img = 'in';
+  if(isset($this->data['knownAddresses'][$transaction->sender])):
+    $senderTitle = $this->data['knownAddresses'][$transaction->sender];
+  else:
+    $senderTitle = $transaction->sender;
+  endif;
+  $sender = $transaction->sender;
+  if(isset($this->data['knownAddresses'][$transaction->recipient])):
+    $recipientTitle = $this->data['knownAddresses'][$transaction->recipient];
+  else:
+    $recipientTitle = $transaction->recipient;
+  endif;
+  $recipient = $recipientTitle;
+  if($transaction->sender == $this->data['id']):
+    $sender = $senderTitle;
+    $img = 'out';
+  else:
+    $recipient = $recipientTitle;
+  endif;
+
+  $data['Transaction'][$i]['amount'] = $transaction->amountNQT/100000000;
+
+  $data['Transaction'][$i]['sender'] = $sender;
+  $data['Transaction'][$i]['sender_title'] = $senderTitle;
+
+  if(strpos($sender,'bounty') !== false):
+    $data['Transaction'][$i]['bounty'] = true;
+  endif;
+
+  $data['Transaction'][$i]['direction'] = $img;
+  $data['Transaction'][$i]['recipient'] = $recipient;
+  $data['Transaction'][$i]['recipient_title'] = $recipientTitle;
+  $data['Transaction'][$i]['age'] = $this->timeElapsed($transaction->timestamp);
+
+  $data['Transaction'][$i]['block'] = $transaction->height;
+
+endforeach;
+
+$data['Account']['balance'] = $this->data['balance']['balance'];
+$data['Account']['received'] = $this->data['balance']['received'];
+$data['Account']['receivedtx'] = $this->data['balance']['receivedtx'];
+$data['Account']['forged'] = $this->data['balance']['forged'];
+$data['Account']['forgedblocks_fee'] = $this->data['balance']['forgedblocks'];
+$data['Account']['forgedblocks_total'] = $this->data['balance']['totalforgedblocks'];
+$data['Account']['send'] = $this->data['balance']['sent'];
+$data['Account']['senttx'] = $this->data['balance']['senttx'];
+$data['Account']['paidfees'] = $this->data['balance']['fees'];
+
+echo json_encode($data);

@@ -1,0 +1,12 @@
+CREATE TABLE apicache (
+  ip_address TEXT,
+  timestamp NUMERIC,
+  last_hallmark TEXT,
+  updated_at TEXT,
+  last_offline TEXT,
+  last_online TEXT,
+  full_uptime TEXT,
+  last_payout TEXT,
+  last_payout_uptime TEXT,
+  UNIQUE (ip_address)
+);

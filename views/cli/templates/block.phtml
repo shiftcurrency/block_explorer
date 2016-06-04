@@ -1,0 +1,22 @@
+<?php if(isset($this->data['block']['height'])): ?>
+| height       | <?=$this->data['block']['height']?>
+| ID           | <?=$this->data['block']['id']?>
+| age          | <?=$this->timeElapsed($this->data['block']['time'])?> ago
+| previous     | <?=$this->data['block']['prevheight']?>
+| next         | <?=$this->data['block']['nextheight']?>
+| generator    | <?php if(isset($this->data['knownAddresses'][$this->data['block']['generator']])): ?><?=$this->data['knownAddresses'][$this->data['block']['generator']];?><?php else: ?><?=$this->data['block']['generator']?><?php endif; ?> |
+| transactions | <?php
+          if($this->data['block']['numberoftransactions'] == 0):
+            echo $this->data['block']['numberoftransactions'];
+          else:
+            foreach($this->data['block']['transactions'] as $transaction):
+              ?><?=$transaction['id']?>
+            <?php
+            endforeach;
+          endif;
+          ?>
+| total amount | <?=$this->data['block']['totalamount']?>
+| total fees   | <?=$this->data['block']['totalfee']?>
+<?php else: ?>
+  Block not found
+<?php endif; ?>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assetwarnings>
+  <!-- <asset>
+    <id>1</id>
+    <reason>revoked</reason>
+    <url>https://github.com/altsheets/hz-blockexplorer/tree/master/data/assetwarnings.xml</url>
+    <date>June 29th, 2015, 12:00:00</date>
+  </asset>
+
+  <asset>
+    <id>2</id>
+    <reason>test asset</reason>
+    <url>https://github.com/altsheets/hz-blockexplorer/tree/master/data/assetwarnings.xml</url>
+    <date>June 29th, 2015, 12:00:00</date>
+  </asset>
+
+  <asset>
+    <id>5</id>
+    <reason>proven scam</reason>
+    <url>https://github.com/altsheets/hz-blockexplorer/tree/master/data/assetwarnings.xml</url>
+    <date>June 29th, 2015, 12:00:00</date>
+  </asset> -->
+
+  <asset>
+    <id>5903523947573024709</id>
+    <reason>test asset</reason>
+    <url>https://bitcointalk.org/index.php?topic=998804.msg11236283#msg11236283</url>
+    <date>April 29, 2015, 06:33:53 UTC</date>
+  </asset>
+
+  <asset>
+    <id>16661902544444460183</id>
+    <reason>revoked</reason>
+    <url>https://bitcointalk.org/index.php?topic=998804.msg10935080#msg10935080</url>
+    <date>March 30, 2015, 10:53:12 UTC</date>
+  </asset>
+  
+  <asset> <!-- dacxlts -->
+    <id>2715570412940676305</id>
+    <reason>revoked</reason>
+    <url>https://asx.nhzcrypto.org</url>
+    <date>January 1, 2015, 12:00:00</date>
+  </asset>
+  
+  <asset> <!-- dacxbtsx -->
+    <id>9847458919448577</id>
+    <reason>revoked</reason>
+    <url>https://asx.nhzcrypto.org</url>
+    <date>January 1, 2015, 12:00:00</date>
+  </asset>
+  
+  <asset> <!-- dacxpts -->
+    <id>670854244883830484<4/id>
+    <reason>revoked</reason>
+    <url>https://asx.nhzcrypto.org</url>
+    <date>January 1, 2015, 12:00:00</date>
+  </asset>
+
+</assetwarnings>

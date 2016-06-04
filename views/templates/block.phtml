@@ -1,0 +1,129 @@
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#block').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ASSET HERE" },
+		  "order": [[ 4, "desc" ]]
+    } );
+} );
+</script>
+
+
+
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Block #<?= $this->data['block']->height ?></h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+    
+    
+    <?php if(isset($this->data['block']->height)): ?>
+    <h1>Block #<?= $this->data['block']->height ?></h1>
+     <p>Block ID: <?=$this->data['block']->block?></p>
+     <?php else: ?>
+    <h1>Error</h1>
+    <p>Block not found - if the number is definitely valid, it's probably not indexed yet. Try again in a few minutes.</p>
+  <?php endif; ?>
+    
+    
+      
+    </div>
+   
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Block #<?= $this->data['block']->height ?></h2>
+    </div>
+    <p>The complete list of Horizon asgdfsets.</p>
+  </div>
+</section>
+
+
+
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix"> <table id="block" class="display" data-page-length='25'>
+      <tr>
+        <td><h5 style="margin-top:2px;">Block Height</h5></td>
+        <td><p><?=$this->data['block']->height?></p></td>
+      </tr>
+      <tr>
+        <td><h5 style="margin-top:2px;">Block Age</h5></td>
+        <td title="<?=$this->data['block']->time?>"><p><?=$this->timeElapsed($this->data['block']->time)?></p></td>
+      </tr>
+            <tr>
+        <td><h5 style="margin-top:2px;">Total Amount</h5></td>
+        <td><p><span class="greentext"><?=$this->data['block']->totalAmountNQT/100000000?></span><span class="hzlogo">HZ</span></p></td>
+      </tr>
+      <tr>
+        <td><h5 style="margin-top:2px;">Total Fees</h5></td>
+        <td><p><span class="redtext"><?=$this->data['block']->totalFeeNQT/100000000?></span><span class="hzlogo">HZ</span></p></td>
+      </tr>
+      <tr>
+        <td><h5 style="margin-top:2px;">Generator</h5></td>
+        <td>
+          <p style="text-transform:uppercase;"><a href="?page=account&id=<?=$this->data['block']->generator?>">
+            <?php if(isset($this->data['knownAddresses'][$this->data['block']->generator])): ?>
+            <?=$this->data['knownAddresses'][$this->data['block']->generator];?>
+            <?php else: ?>
+            <?=$this->data['block']->generatorRS?>
+            <?php endif; ?>
+            </a></p>
+          </td>
+      </tr>
+      <tr>
+        <td><h5 style="margin-top:2px;">Transactions</h5></td>
+        <td>
+          <?php
+          if(count($this->data['block']->transactions) == 0):
+            echo '0';
+          else:
+            foreach($this->data['block']->transactions as $transaction):
+              ?>
+              <div><a href="?page=transaction&id=<?=$transaction?>"><?=$transaction?></a></div>
+              <?php
+            endforeach;
+          endif;
+          ?>
+        </td>
+      </tr>
+
+    </table>
+</div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td colspan="2"><p class="dropcap">This page shows the information for block height #<span style="color:#f00"><?= $this->data['block']->height ?></span> which was generated <span style="color:#f00"><?=$this->timeElapsed($this->data['block']->time)?> ago</span>.</p><p>You can view earlier and later blocks by clicking on the buttons below.</p>
+                      
+       
+                      <div style="margin-top:20px"><a type="button" class="btn btn-primary" href="?page=block&height=<?=$this->data['block']->prevheight?>">&lt;&lt; <?=$this->data['block']->prevheight?></a> <a type="button" class="btn btn-primary" style="float: right;" href="?page=block&height=<?=$this->data['block']->nextheight?>"><?=$this->data['block']->nextheight?> &gt;&gt;</a></div>
+                      
+                      </td>
+                </tr>
+               
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>
+
+
+
+

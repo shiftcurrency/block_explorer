@@ -1,0 +1,44 @@
+<?php if(isset($this->data['error'])): ?>
+  <div class="error"><?=$this->data['error']?></div>
+<?php endif; ?>
+<div class="well">
+  <?php if($this->data['eggid'] != 'Not found'): ?>
+    <form action="/?page=easterEgg&id=<?=$this->data['eggid']?>" method="POST" class="form-horizontal" role="form">
+      <div class="form-group">
+        <img src="/img/easteregg.png" title="Your Easter egg" />
+        <?php
+        $congrats = [
+          0=>'Congratulations',
+          1=>'Bingo',
+          2=>'Lucky you',
+          3=>'Yay',
+          4=>'Well done',
+          5=>'Good on you',
+          6=>'Fair play',
+          7=>'Well played',
+          8=>'Congratulations',
+          9=>'Congrats'
+        ];
+        ?>
+        <?=$congrats[rand(0,9)]?>, you found an Easter egg! Get HZ by entering your account id and solving the captcha.
+      </div>
+      <div class="form-group">
+        <label for="AccountId">HZ Account</label>
+        <input type="text" name="account_id" id="AccountId" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="CaptchaCode">
+          Captcha<br />
+          <img id="captcha" src="/securimage/securimage_show.php" alt="CAPTCHA Image" />
+        </label>
+        <a href="#" onclick="document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
+        <input type="text" name="captcha_code" class="form-control" size="10" maxlength="6" id="CaptchaCode" />
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Redeem</button>
+      </div>
+    </form>
+  <?php else: ?>
+    <p>The easter bunny is gone :(</p>
+  <?php endif; ?>
+</div>

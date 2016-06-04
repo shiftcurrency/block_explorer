@@ -1,0 +1,103 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Forgers Chart</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Forgers Chart</h1>
+    </div>
+    <p>Forged blocks by account (
+      <?=$this->data['count'];?>
+      total).</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Forgers Chart</h2>
+    </div>
+    <p>Forged blocks by account (
+      <?=$this->data['count'];?>
+      total).</p>
+  </div>
+</section>
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix">
+              <div id="graphbox" style="max-width: 950px; height: 456px;">Loading Horizon Forgers Chart...</div>
+            </div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td><p class="dropcap">This page shows the top forging accounts on the Horizon network.</p>
+                    <p>You can save this graph to your computer by clicking the icon in the top right corner and selecting your desired format.</p></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>
+<script>
+  do_chart = function() {
+    $("#graphlinks").show();
+    $('#graphbox').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Horizon - Forged Blocks By Account (<?=$this->data['count'];?> total)'
+        },
+        subtitle: {
+          text: 'Source: explorer.horizonplatform.io',
+        },
+        tooltip: {
+          pointFormat: '<b>{point.y} blocks</b> ({point.percent}%)<br />fees: {point.fees} HZ ({point.feepercent}%)'
+        },
+        plotOptions: {
+          pie: {
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                  enabled: true,
+                  format: '<b>{point.name}</b>: {point.y} blocks',
+                  style: {
+                      color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                  }
+              }
+          },
+          series: {
+            point: {
+              events: {
+                click: function(e) {
+                  location.href = '/?page=account&id='+e.point.generator;
+                  e.preventDefault();
+                }
+              }
+            }
+          }
+        },
+        series: [{
+            type: 'pie',
+            name: 'HZ Forgers',
+            data: <?=$this->data['graph']?>
+        }]
+    });
+  }
+  setTimeout("do_chart()", 50);
+</script> 

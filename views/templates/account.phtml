@@ -1,0 +1,110 @@
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#account').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH ACCOUNT INFORMATION HERE" },
+		  "order": [[ 3, "desc" ]]
+    } );
+} );
+</script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>
+        <?=$this->data['idrs']?>
+      </h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>
+        <?=$this->data['idrs']?>
+      </h1>
+    </div>
+    <p>ID:
+      <?=$this->data['id']?>
+      <?php if(isset($this->data['knownAddresses'][$this->data['id']])): ?>
+      | Alias:
+      <?=trim($this->data['knownAddresses'][$this->data['id']]);?>
+      <?php endif; ?>
+    </p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>
+        <?=$this->data['idrs']?>
+      </h2>
+    </div>
+    <p>ID:
+      <?=$this->data['id']?>
+      <?php if(isset($this->data['knownAddresses'][$this->data['id']])): ?>
+      | Alias:
+      <?=trim($this->data['knownAddresses'][$this->data['id']]);?>
+      <?php endif; ?>
+    </p>
+  </div>
+</section>
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix"  id="accountTransactionsTable">
+              <?=$this->element('accountTransactionTable')?>
+            </div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td colspan="2"><p class="dropcap">This page shows the information for Horizon account <span class="redtext">
+                      <?=$this->data['idrs']?></span>.</p>
+                    <p>You can sort the information by using the controls at the top.</p></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><h5 style="text-align:center; margin-bottom:0px;">CURRENT HORIZON BALANCE:</h5>
+<p style="text-align:center; font-size:1.6em; font-weight:bold;  margin-bottom:0px;">
+                      <span class="greentext"><?=number_format($this->data['balance']['balance'],8)?></span><span class="hzlogo">HZ</span></p></td>
+                </tr>
+                <tr>
+                  <td><h5>RECEIVED:</h5></td>
+                  <td><p style="margin-top:8px; margin-bottom:0px;">
+                      <span class="greentext"><?=number_format($this->data['balance']['received'])?></span><span class="hzlogo">HZ</span></p>
+                      <p class="sidersmall"><?=number_format($this->data['balance']['receivedtx']);?> transactions</p></td>
+                </tr>
+                <tr>
+                  <td><h5>FORGED:</h5></td>
+                  <td><p style="margin-top:8px; margin-bottom:0px;">
+                      <span class="greentext"><?=number_format($this->data['balance']['forged'])?></span><span class="hzlogo">HZ</span></p>
+                      <p class="sidersmall"><?=number_format($this->data['balance']['forgedblocks']);?>/<?=$this->data['balance']['totalforgedblocks']?> blocks</p></td>
+                </tr>
+                <tr>
+                  <td><h5>SENT:</h5></td>
+                  <td><p style="margin-top:8px; margin-bottom:0px;">
+                      <span class="redtext"><?=number_format($this->data['balance']['sent'])?></span><span class="hzlogo">HZ</span></p>
+                      <p class="sidersmall"><?=number_format($this->data['balance']['senttx']);?> transactions</p></td>
+                </tr>
+                <tr>
+                  <td><h5>FEES:</h5></td>
+                  <td><p style="margin-top:8px; margin-bottom:0px;">
+                      <span class="redtext"><?=number_format($this->data['balance']['fees'])?></span><span class="hzlogo">HZ</span></p>
+                    </td>
+                </tr>
+                <tr>
+                  <td><h5>QR CODE:</h5></td>
+                  <td><img src="http://qrfree.kaywa.com/?l=1&s=8&d=<?=$this->data['id']?>" alt="QRCode <?=$this->data['id']?>" title="<?=$this->data['id']?>" style="width:100%" /></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>

@@ -1,0 +1,10 @@
+| ID            | <?=$this->data['transaction']['id']?>
+| sender        | <?php if(isset($this->data['knownAddresses'][$this->data['transaction']['sender']])): ?><?=$this->data['knownAddresses'][$this->data['transaction']['sender']];?><?php else: ?><?=$this->data['transaction']['sender']?><?php endif; ?>
+| recipient     | <?php if(isset($this->data['knownAddresses'][$this->data['transaction']['recipient']])): ?><?=$this->data['knownAddresses'][$this->data['transaction']['recipient']];?><?php else: ?><?=$this->data['transaction']['recipient']?><?php endif; ?>
+| amount        | <?=$this->data['transaction']['amount']?>
+| fee           | <?=$this->data['transaction']['fee']?>
+| block         | <?=$this->data['transaction']['blockdata']['height']?>
+| time          | <?=$this->data['transaction']['time']?> (<?=$this->timeElapsed($this->data['transaction']['time'])?> ago)
+| deadline      | <?=$this->data['transaction']['deadline']?>
+| confirmations | <?=$this->data['transaction']['confirmations']?>
+| signature     | <?=$this->data['transaction']['signature']?>

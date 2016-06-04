@@ -1,0 +1,20 @@
+#wrapper {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+.footer {
+  float: right;
+  display: inline;
+}
+
+.rmm ul li { display: inline; } 

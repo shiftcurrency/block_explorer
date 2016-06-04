@@ -1,0 +1,222 @@
+
+
+<!--From here onwards, this file was done by altsheets. Modelled after transaction.phtml -->
+
+<script type="text/javascript" language="javascript">
+$(document).ready(function() {
+    $('#asset').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ASSET HERE" },
+		  "order": [[ 4, "desc" ]]
+    } );
+} );
+</script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+	<div id="visible-phone-title" class="col-sm-12" 
+	     style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+	       
+		Still TODO (unfinished code, I am lacking the device for testing this.)
+	
+	    <div class="titleh1">
+	    	<h2>Id, Name</h2>
+	    </div>
+	    <p>lalala</p>
+	</div>
+  
+	<div id="visible-desktop-title" class="col-sm-12" 
+	     style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+	  
+		<div class="titleh1">
+			<?php if(isset($this->data['asset']->asset)): ?>
+				<h1>Asset '<span class="redtext"><?=htmlspecialchars($this->data['asset']->name)?></span>'
+				</h1>
+				<h1>Id <?= $this->data['asset']->asset ?></h1>
+		    <?php else: ?>
+		    	<h1>Error</h1>
+		      	<p>Asset not found - wrong id?<br/>If the id number is definitely valid, 
+		      	it's probably not indexed yet. Try again in a few minutes.</p>
+		    <?php endif; ?>
+		</div>
+	</div>
+
+	<div id="visible-tablet-title" class="col-sm-12" 
+	     style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+      
+		Still TODO (unfinished code, I am lacking the device for testing this.) 
+	       
+	    <div class="titleh1">
+	    	<h2>Id, Name</h2>
+		</div>
+    	<p>lalala</p>
+	</div>
+</section>
+
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix"> 
+           
+<table>
+
+	<?php if(isset($this->data['asset']->asset)): /* begin if asset exists and is indexed */ ?>
+    	<tr><td>
+    		<h5 style="margin-top:2px;">name</h5>
+	    	</td>
+	      	<td><p><span class="redtext"><?=htmlspecialchars($this->data['asset']->name)?></span></p>
+	      	</td>
+		</tr>            
+        <tr>
+      		<td><h5 style="margin-top:2px;">asset id</h5></td>
+			<td><p>	<a href="?page=transaction&id=<?=$this->data['asset']->asset?>">
+      				 							  <?=$this->data['asset']->asset?></a></p>
+			</td>
+    	</tr>
+		<tr>
+      		<td><h5 style="margin-top:2px;">description</h5></td>
+      		<td><p><span class="greentext"><?=htmlspecialchars($this->data['asset']->description)?></span></p></td>
+    	</tr>
+
+    	<tr>
+      		<td><h5 style="margin-top:2px;">account</h5></td>
+      		<td><p style="text-transform:uppercase;">
+      			<a href="?page=account&id=<?=$this->data['asset']->account?>">
+          			                      <?=$this->data['asset']->accountRS?></a>
+          		<?php if(isset($this->data['knownAddresses'][$this->data['asset']->account])): ?>
+          			(<?=$this->data['knownAddresses'][$this->data['asset']->account];?>)
+          		<?php endif; ?>
+				</p>
+			</td>
+    	</tr>
+		<tr>
+      		<td><h5 style="margin-top:2px;">account ID</h5></td>
+      		<td><p><?=$this->data['asset']->account?></p></td>
+    	</tr>
+    
+    	<tr>
+      		<td><h5 style="margin-top:2px;">decimals</h5></td>
+      		<td><p><span><?=$this->data['asset']->decimals?></span></p></td>
+    	</tr>
+    	<tr>
+        	<td><h5 style="margin-top:2px;">quantityQNT</h5></td>
+        	<td><p><span><?=$this->data['asset']->quantityQNT?></span></p></td>
+    	</tr>    
+    	<tr>
+        	<td><h5 style="margin-top:2px;">quantity</h5></td>
+        	<td><p><span class="greentext"><?=$this->data['asset']->quantity?></span></p></td>
+    	</tr>    
+    
+    	<tr>
+      		<td><h5 style="margin-top:2px;">number of trades</h5></td>
+      		<td><p><span class="bluetext"><?=$this->data['asset']->numberOfTrades?></span></p></td>
+    	</tr>
+
+    	<?php if(isset($this->data['asset']->numberOfTransfers)): ?>
+    		<!-- the future version of HZ will have this asset property-->
+    		<tr>
+      			<td><h5 style="margin-top:2px;">number of transfers</h5></td>
+      			<td><p><span class="bluetext"><?=$this->data['asset']->numberOfTransfers?></span></p></td>
+    		</tr>
+    	<?php endif; ?>
+    	
+    	<?php if(isset($this->data['asset']->numberOfAccounts)): ?>
+    		<!-- the future version of HZ will have this asset property-->
+    		<tr>
+      			<td><h5 style="margin-top:2px;">number of accounts</h5></td>
+      			<td><p><span class="bluetext"><?=$this->data['asset']->numberOfAccounts?></span></p></td>
+    		</tr>
+    	<?php endif; ?>
+    
+    <?php endif; /* endif asset exists and is indexed */ ?> 
+    
+    <?php if(isset($this->data['asset']->warning)): ?>
+    	<tr>
+      		<td colspan="2"><hr></td>
+    	</tr>
+    	<tr>
+      		<td>
+      			<h5 style="margin-top:2px;"><span class="bluetext">warning</span></h5>
+      		</td>
+      		<td><p>Warning: Think twice before you invest into this asset!</p>
+      			<p>Reason:<span class="redtext">
+      			<?php echo $this->data['asset']->warning->reason; ?></span></p>
+      			<p>Explanations: 
+      			<?php
+			      echo '<a target="_blank" href="'; 
+			      echo $this->data['asset']->warning->url;
+			      echo '">';
+			      echo $this->data['asset']->warning->date;
+			      echo '</a>';
+				?></p>
+      		</td>
+    	</tr>
+    <?php endif; /* endif warnings */ ?> 
+    
+</table>
+
+            </div>
+          </div>
+<div class="su-column su-column-size-1-4">
+  <div class="su-column-inner su-clearfix">
+            
+
+<table>
+	<?php if(isset($this->data['asset']->asset)): /* begin if asset exists and is indexed */ ?>
+		<tr>
+			<td colspan="2">
+            	<p class="dropcap">This page shows basic information about an asset with the name 
+                	'<span class="redtext"><?= htmlspecialchars($this->data['asset']->name) ?></span>'
+                	(careful, names need not be unique; always check for the id 
+                	<span class="greentext"><?= $this->data['asset']->asset ?></span>).
+                </p> 
+                <p class="dropcap">You can buy and sell this asset inside your HZ wallet
+					(<a href="http://account.horizonplatform.io" target="_blank">web wallet</a>
+					or <a href="http://localhost:7776" target="_blank">local wallet</a>):
+				</p>
+			</td></tr>
+		<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td><p class="dropcap">
+				* asset exchange <br/>
+		        ** add asset to watched assets<br/>
+		        *** id: <span class="greentext"><?= $this->data['asset']->asset ?></span><br/>
+		        (to add several asset ids, logout and log back in).
+	            </p>
+			</td>
+		</tr>
+		<tr><td colspan="2">
+	        	<p class="dropcap">For more explanations how to buy HZ, and HZ assets, see 
+	        	<a target="_blank" href="https://bitcointalk.org/index.php?topic=1006327">this bitcointalk thread</a>, 
+	        	and the 
+	        	<a target="_blank" href="https://horizonplatform.io/category/horizon-tutorials/">tutorials section</a>.
+	        	</p>
+			</td></tr>
+		<tr><td colspan="2"> 
+        		<h2>Credits:</h2>
+            </td></tr>
+        <tr><td colspan="2">
+        		<p class="dropcap">
+                <?php include "altsheetsCredits.html"?>
+                </p>
+             </td>
+		</tr>
+
+	<?php endif; /* endif asset exists and is indexed */ ?>
+	
+</table>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> 
+  </div>
+  <!--/#content--> 
+</div>
+
+<!--Until here, this file was done by altsheets. Modelled after transaction.phtml -->
+

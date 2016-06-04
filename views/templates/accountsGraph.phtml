@@ -1,0 +1,67 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<div id="graphbox" style="min-width: 400px; height: 600px; margin: 0 auto">GRAPH!</div>
+
+<script>
+  do_chart = function() {
+    $("#graphlinks").show();
+    $('#graphbox').highcharts({
+      chart: {
+        defaultSeriesType: 'line',
+        marginRight: 70,
+        marginBottom: 25
+      },
+      title: {
+        text: 'Horizon user accounts',
+        x: -20 //center
+      },
+      subtitle: {
+        text: 'Source: explorer.horizonplatform.io',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        labels: {
+          formatter: function(){
+            return Highcharts.numberFormat(this.value,
+              0,
+              '',
+              ','
+            );
+          }
+        },
+        showFirstLabel: false,
+        title: {
+          text: 'Accounts'
+        },
+        plotLines: [{
+          width: 1,
+          color: '#808080'
+        }]
+      },
+      tooltip: {
+        formatter: function(){
+          return Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.x)+'<br /><b>'+this.series.name+'</b> '+Highcharts.numberFormat(this.y,
+          0,
+          '',
+          ',');
+        }
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      credits: {
+        enabled: false
+      },
+      series: <?=$this->data['graph']?>
+    });
+  }
+  setTimeout("do_chart()", 50);
+</script>

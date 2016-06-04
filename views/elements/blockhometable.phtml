@@ -1,0 +1,20 @@
+<table id="blockshome" class="display" data-page-length='10'>
+  <thead><tr>
+    <th style="padding-left:10px;"><h5>Height</h5></th>
+    <th style="text-align:center;"><h5>Generation Date</h5></th>
+    <th style="text-align:right;"><h5>Amount (HZ)</h5></th>
+  </tr></thead>
+  <tbody>
+  <?php
+  foreach($this->data['blocks'] as $key=>$block):
+    ?>
+    <tr>
+      <td><p><a href="?page=block&height=<?=$block->height?>"><?=$block->height?></a></p></td>
+      <td style="text-align:center;" title="<?=$block->time?>"><p style="white-space:nowrap;"><?=$block->time?></p></td>
+      <td style="text-align:right;"><p  class="greentext" style="white-space:nowrap; text-transform:uppercase;">
+       <?=$block->totalAmountNQT/100000000?></p>
+      </td>      
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>

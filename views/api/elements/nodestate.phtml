@@ -1,0 +1,39 @@
+<?php
+if(isset($this->data['nodeResponse'])):
+  if($this->data['nodeResponse'] == false):
+    $data['error'] = 'Failed to connect to node '.$this->data['nodeAddress'].' - is HZ running? Did you open port 7774?';
+  else:
+    $data['node']['address'] = $this->data['nodeResponse']->announcedAddress;
+    if(isset($this->data['nodeResponse']->hallmark) && !empty($this->data['nodeResponse']->hallmark)):
+      $data['node']['hallmark_state'] = 'set';
+      $data['node']['hallmark'] = $this->data['nodeResponse']->hallmark;
+    else:
+      $data['node']['hallmarkstate'] = 'not set';
+    endif;
+
+    $data['sbs']['address'] = $this->data['apiResponse']->ip_address;
+
+    $offline = strtotime($this->data['apiResponse']->last_offline);
+    $online = strtotime($this->data['apiResponse']->last_online);
+    if($online > $offline):
+      $data['sbs']['state'] = 'ONLINE';
+    else:
+      $data['sbs']['state'] = 'OFFLINE';
+    endif;
+
+    $data['sbs']['last_checked'] = date('Y-m-d H:i:s',strtotime($this->data['apiResponse']->updated_at));
+    $data['sbs']['total_uptime'] = $this->data['apiResponse']->full_uptime;
+    $data['sbs']['last_payout'] = date('Y-m-d H:i:s',strtotime($this->data['apiResponse']->last_payout));
+    $data['sbs']['next_payout'] = 1440 - ($this->data['apiResponse']->full_uptime - $this->data['apiResponse']->last_payout_uptime);
+    $data['sbs']['hallmark'] = $this->data['apiResponse']->last_hallmark;
+    if($this->data['nodeResponse']->hallmark == $this->data['apiResponse']->last_hallmark && isset($this->data['nodeResponse']->hallmark)):
+      $data['sbs']['hallmark_state'] = 'correct';
+    elseif(!isset($this->data['nodeResponse']->hallmark)):
+      $data['sbs']['hallmark_state'] = 'not submitted by node';
+    else:
+      $data['sbs']['hallmark_state'] = 'differs';
+    endif;
+  endif;
+endif;
+
+echo json_encode($data);

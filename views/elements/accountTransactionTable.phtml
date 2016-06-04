@@ -1,0 +1,77 @@
+<?php
+if(isset($this->data['earlier'])):
+  $button = '<a type="button" class="btn btn-primary" href="?page=account&id='.$this->data['id'].'&timestamp='.$this->data['earlier'].'"><< earlier</a>&nbsp;';
+else:
+  $button = '<a type="button" class="btn btn-primary" href="?page=account&id='.$this->data['id'].'"><< back</a>';
+endif;
+
+if(isset($this->data['later'])):
+  $button .= '&nbsp;<a type="button" class="btn btn-primary" href="?page=account&id='.$this->data['id'].'&timestamp='.$this->data['later'].'&direction=ASC">later >></a>';
+endif;
+?>
+
+<table id="account" class="display" data-page-length='25'>
+  <thead>
+    <tr>
+      <th style="padding-left:10px;"><h5>Amount (HZ)</h5></th>
+      <th style="text-align:center;"><h5>Sender</h5></th>
+      <th style="text-align:center;"><h5>Recipient</h5></th>
+      <th style="text-align:center;"><h5>Age/Time</h5></th>
+      <th style="text-align:right;"><h5>Block/ID</h5></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data['transactions'] as $transaction):
+          $img = '<br><span class="greentext mainsmall">INCOMING</span>';
+          if(isset($this->data['knownAddresses'][$transaction->sender])):
+            $senderTitle = $this->data['knownAddresses'][$transaction->sender];
+          else:
+            $senderTitle = $transaction->senderRS;
+          endif;
+          $sender = '<a href="?page=account&id='.$transaction->sender.'">'.$senderTitle.'</a> ';
+          if(isset($this->data['knownAddresses'][$transaction->recipient])):
+            $recipientTitle = $this->data['knownAddresses'][$transaction->recipient];
+          else:
+            $recipientTitle = $transaction->recipientRS;
+          endif;
+          $recipient = '<a href="?page=account&id='.$transaction->recipient.'">'.$recipientTitle.'</a>';
+          if($transaction->sender == $this->data['id']):
+            $sender = $senderTitle;
+            $img = '<br><span class="redtext mainsmall">OUTGOING</span>';
+          else:
+            $recipient = '<a href="?page=account&id='.$transaction->recipient.'">'.$recipientTitle.'</a>';
+          endif;
+          ?>
+    <tr>
+      <td><p>
+          <?=$transaction->amountNQT/100000000?>
+
+        </p></td>
+      <td style="text-align:center;"><p style="text-transform:uppercase">
+          <?=$sender?>
+<?=$img?>
+        </p></td>
+      <td style="text-align:center;"><p style="text-transform:uppercase; white-space:nowrap;">
+          <?=$recipient?>
+        </p></td>
+      <td class="timeAGE" title="<?=$transaction->timestamp?>" style="text-align:center; white-space:nowrap;"><p>
+
+          <?=$transaction->timestamp?><br /><span class="mainsmall"><?=$this->timeElapsed($transaction->timestamp)?></span>
+         
+        </p></td>
+      <td style="text-align:right;"><p>
+          <?php if(isset($transaction->transaction)): ?>
+          <a href="?page=transaction&id=<?=$transaction->transaction?>">
+          <?=$transaction->transaction?>
+          </a>
+          <?php else: ?>
+          <a href="?page=block&height=<?=$transaction->height?>">
+          <?=$transaction->height?>
+          </a>
+          <?php endif; ?>
+        </p></td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+

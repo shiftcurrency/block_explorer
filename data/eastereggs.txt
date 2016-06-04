@@ -1,0 +1,1 @@
+CREATE TABLE eggs (id TEXT, owner TEXT, sent TEXT, amount NUMERIC, ip TEXT, UNIQUE (id));

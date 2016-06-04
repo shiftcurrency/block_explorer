@@ -1,0 +1,33 @@
+<table id="blocks" class="display" data-page-length='50'>
+  <thead><tr>
+    <th style="padding-left:10px;"><h5>Height</h5></th>
+    <th style="text-align:center;"><h5>Age /Time</h5></th>
+    <th style="text-align:center;"><h5>Generator</h5></th>
+    <th style="text-align:center;"><h5>Transactions</h5></th>
+    <th style="text-align:center;"><h5>Amount (HZ)</h5></th>
+    <th style="text-align:right;"><h5>Fee (HZ)</h5></th>
+  </tr></thead>
+  <tbody>
+  <?php
+  foreach($this->data['blocks'] as $key=>$block):
+    ?>
+    <tr>
+      <td><p><a href="?page=block&height=<?=$block->height?>"><?=$block->height?></a></p></td>
+      <td style="text-align:center;" title="<?=$block->time?>"><p style="white-space:nowrap;"><?=$block->time?> <br /><span class="mainsmall"><?=$this->timeElapsed($block->time)?></span>
+</p></td>
+      <td style="text-align:center;"><p style="white-space:nowrap; text-transform:uppercase;">
+        <a href="/?page=account&id=<?=$block->generator?>">
+          <?php if(isset($this->data['knownAddresses'][$block->generator])): ?>
+            <?=$this->data['knownAddresses'][$block->generator];?>
+          <?php else: ?>
+            <?=$block->generatorRS?>
+          <?php endif; ?>
+        </a></p>
+      </td>
+      <td style="text-align:center;"><p><?=count($block->transactions)?></p></td>
+      <td style="text-align:center;"><p class="greentext"><?=$block->totalAmountNQT/100000000?></p></td>
+      <td style="text-align:right;"><p class="redtext"><?=$block->totalFeeNQT/100000000?></p></td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
+</table>

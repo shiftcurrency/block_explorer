@@ -1,0 +1,646 @@
+<?php
+
+$sitetitle = "Title Goes Here";
+$subtitle = "Subtitle Goes Here";
+$version = "3.9.2";
+
+$pageurl = str_replace("/?page=","",$_SERVER[REQUEST_URI]);
+
+$pageurlsplit = explode("&height=",$pageurl);
+$pageurlsplit2 = explode("&id=",$pageurl);
+
+if ($pageurl == "/") {
+    $pageurl = "Block Explorer";
+	$explorermenu = "active";
+} elseif ($pageurlsplit[0] == "blocks") {
+    $pageurl = "Latest Blocks";
+	$explorermenu = "active";
+	$latestblocksmenu = "active";
+} elseif ($pageurlsplit[0] == "block") {
+    $pageurl = "Block Information";
+	$explorermenu = "active";
+	$latestblocksmenu = "active";
+} elseif ($pageurlsplit2[0] == "transaction") {
+    $pageurl = "Transaction Information";
+	$explorermenu = "active";
+	$latesttransactionsmenu = "active";
+} elseif ($pageurl == "accounts") {
+    $pageurl = "Account Holders";
+	$accountsmenu = "active";
+} elseif ($pageurl == "assets") {
+    $pageurl = "Horizon Assets";
+	$assetsmenu = "active";
+} elseif ($pageurl == "nodecheck") {
+    $pageurl = "Node Checker";
+} elseif ($pageurl == "graphs&graph=distribution") {
+    $pageurl = "Distribution Chart";
+	$chartsmenu = "active";
+	$distributionchartmenu = "active";
+} elseif ($pageurl == "graphs&graph=nodes") {
+    $pageurl = "Nodes Chart";
+	$chartsmenu = "active";
+	$nodeschartmenu = "active";
+} elseif ($pageurl == "graphs&graph=forgers") {
+    $pageurl = "Forgers Chart";
+	$chartsmenu = "active";
+	$forgerschartmenu = "active";
+} elseif ($pageurlsplit2[0] == "account") {
+    $pageurl = "Account Information";
+	$accountsmenu = "active";
+} elseif ($pageurl == "transactions") {
+    $pageurl = "Latest Transactions";
+	$explorermenu = "active";
+	$latesttransactionsmenu = "active";
+} else {
+    $pageurl = "More Information";
+}
+
+// echo "<font size=5>".$pageurlsplit[0]." / ".$pageurl."</font>";
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title><?php echo $pageurl ?>- Horizon Platform</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://horizonplatform.io/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="https://horizonplatform.io/wp-content/themes/horizon/assets/js/html5shiv.js"></script>
+<script src="https://horizonplatform.io/wp-content/themes/horizon/assets/js/respond.min.js"></script>
+<![endif]-->
+<link rel="shortcut icon" href="https://horizonplatform.io/wp-content/uploads/2015/03/horizon-logo31.png" >
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:400,300,700">
+<meta name='robots' content='noindex,follow' />
+<link rel='stylesheet' id='t4bnt_front_css-css'  href='https://horizonplatform.io/wp-content/plugins/t4b-news-ticker/css/t4bnt_front_10.css?v=1.0&#038;ver=4.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bootstrap-min-css'  href='https://horizonplatform.io/wp-content/themes/horizon/assets/css/bootstrap.min.css?ver=4.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='fontawesome-css'  href='/css/font-awesome.min.css?ver=4.1.1' type='text/css' media='all' />
+<link rel='stylesheet' id='style-css'  href='https://horizonplatform.io/wp-content/themes/horizon/style.css?ver=4.1.1' type='text/css' media='all' />
+<link rel="stylesheet" type="text/css" href="/css/jquery.dataTables.css">
+<style id='style-inline-css' type='text/css'>
+a {
+	color: #428bca;
+}
+/*Link Hover Color*/
+
+a:hover {
+	color: #d9534f;
+}
+/* Header Style */
+
+#header {
+	background-color: #34495e;
+}
+table p {
+	font-size: 1em;
+}
+
+.sidersmall {
+	text-align:right;
+	font-size:0.7em;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+
+.greentext {
+	color:#090;
+}
+
+.redtext {
+	color:#c00;
+}
+
+.mainsmall {
+	font-size:0.8em;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+
+.hzlogo {
+	font-size:0.7em;
+	font-weight:bold;
+	text-transform:uppercase;
+	font-style:italic;
+}
+
+.dataTables_info, .dataTables_paginate, .dataTables_length, .dataTables_filter {
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+.dataTables_length, .dataTables_filter {
+	margin-bottom: 20px;
+	font-weight: normal;
+}
+.dataTables_length label {
+	font-weight: normal;
+}
+.dataTables_filter input {
+	width: 300px;
+	padding: 10px;
+	font-weight: normal;
+}
+.dataTables_length select {
+	padding: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.homeSearch_info, .homeSearch_paginate, .homeSearch_length, .homeSearch_filter {
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	font-size: 14px;
+}
+.homeSearch_length, .homeSearch_filter {
+	margin-bottom: 20px;
+	font-weight: normal;
+	width: 300px;
+	padding: 10px;
+	font-weight: normal;
+}
+.homeSearch_length label {
+	font-weight: normal;
+}
+.homeSearch_filter input {
+	width: 300px;
+	padding: 10px;
+	font-weight: normal;
+}
+.homeSearch_length select {
+	padding: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+
+/* Custom CSS */
+</style>
+<script type='text/javascript' src='https://horizonplatform.io/wp-includes/js/jquery/jquery.js?ver=1.11.1'></script>
+<script type="text/javascript" src="https://horizonplatform.io/js/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="/js/jquery.dataTables.min.js"></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-content/plugins/t4b-news-ticker/js/t4bnt-front.js?ver=1.0'></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-content/themes/horizon/assets/js/bootstrap.min.js?ver=4.1.1'></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-content/themes/horizon/assets/js/jquery.prettyPhoto.js?ver=4.1.1'></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-content/themes/horizon/assets/js/jquery.isotope.min.js?ver=4.1.1'></script>
+<script type='text/javascript' src='https://horizonplatform.io/wp-content/themes/horizon/assets/js/main.js?ver=4.1.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://horizonplatform.io/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://horizonplatform.io/wp-includes/wlwmanifest.xml" />
+<meta name="generator" content="WordPress 4.1.1" />
+<link rel='canonical' href='https://horizonplatform.io/about/' />
+<link rel='shortlink' href='https://horizonplatform.io/?p=94' />
+<style>
+/* Smartphones (landscape) ----------- */
+
+
+
+
+@media only screen and (min-width:300px) and (max-width:640px) {
+#visible-desktop {
+	display: none;
+}
+#visible-desktop-title {
+	display: none;
+}
+#visible-desktop-news {
+	display: none;
+}
+#visible-desktop-logo {
+	display: none;
+}
+#visible-tablet {
+	display: none;
+}
+#visible-tablet-title {
+	display: none;
+}
+#visible-tablet-logo {
+	display: none;
+}
+.titleh1 h2 {
+	font-size: 24px;
+}
+.mobileposts {
+	float: left;
+	display: block;
+	margin-right: 10px;
+	margin-top: 5px
+}
+.mobileposts h4 {
+	color: #fff;
+}
+.visphonecontainer {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #34495e;
+	border: 1px solid #000;
+	height: 80px;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 5px;
+	margin-bottom: 10px;
+}
+.visphonecontainer:hover {
+	background-color: #222;
+	cursor: pointer
+}
+}
+
+
+
+
+
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width:641px) {
+#visible-phone {
+	display: none;
+}
+#visible-phone-title {
+	display: none;
+}
+#visible-phone-news {
+	display: none;
+}
+#visible-phone-logo {
+	display: none;
+}
+#visible-tablet {
+	display: none;
+}
+#visible-tablet-title {
+	display: none;
+}
+#visible-tablet-logo {
+	display: none;
+}
+.titleh1 h1 {
+	font-size: 36px;
+}
+.visdesktopcontainer {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #34495e;
+	border: 1px solid #000;
+	height: 80px;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 5px;
+	margin-top: 10px;
+}
+.visdesktopcontainer:hover {
+	background-color: #222;
+	cursor: pointer
+}
+.col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11 {
+	float: left
+}
+.col-lg-1 {
+	width: 8.333333333333332%
+}
+.col-lg-2 {
+	width: 16.666666666666664%
+}
+.col-lg-3 {
+	width: 25%
+}
+.col-lg-4 {
+	width: 33.33333333333333%
+}
+.col-lg-5 {
+	width: 41.66666666666667%
+}
+.col-lg-6 {
+	width: 50%
+}
+.col-lg-7 {
+	width: 58.333333333333336%
+}
+.col-lg-8 {
+	width: 66.66666666666666%
+}
+.col-lg-9 {
+	width: 75%
+}
+.col-lg-10 {
+	width: 83.33333333333334%
+}
+.col-lg-11 {
+	width: 91.66666666666666%
+}
+.col-lg-12 {
+	width: 100%
+}
+.col-lg-push-0 {
+	left: auto
+}
+.col-lg-push-1 {
+	left: 8.333333333333332%
+}
+.col-lg-push-2 {
+	left: 16.666666666666664%
+}
+.col-lg-push-3 {
+	left: 25%
+}
+.col-lg-push-4 {
+	left: 33.33333333333333%
+}
+.col-lg-push-5 {
+	left: 41.66666666666667%
+}
+.col-lg-push-6 {
+	left: 50%
+}
+.col-lg-push-7 {
+	left: 58.333333333333336%
+}
+.col-lg-push-8 {
+	left: 66.66666666666666%
+}
+.col-lg-push-9 {
+	left: 75%
+}
+.col-lg-push-10 {
+	left: 83.33333333333334%
+}
+.col-lg-push-11 {
+	left: 91.66666666666666%
+}
+.col-lg-pull-0 {
+	right: auto
+}
+.col-lg-pull-1 {
+	right: 8.333333333333332%
+}
+.col-lg-pull-2 {
+	right: 16.666666666666664%
+}
+.col-lg-pull-3 {
+	right: 25%
+}
+.col-lg-pull-4 {
+	right: 33.33333333333333%
+}
+.col-lg-pull-5 {
+	right: 41.66666666666667%
+}
+.col-lg-pull-6 {
+	right: 50%
+}
+.col-lg-pull-7 {
+	right: 58.333333333333336%
+}
+.col-lg-pull-8 {
+	right: 66.66666666666666%
+}
+.col-lg-pull-9 {
+	right: 75%
+}
+.col-lg-pull-10 {
+	right: 83.33333333333334%
+}
+.col-lg-pull-11 {
+	right: 91.66666666666666%
+}
+.col-lg-offset-0 {
+	margin-left: 0
+}
+.col-lg-offset-1 {
+	margin-left: 8.333333333333332%
+}
+.col-lg-offset-2 {
+	margin-left: 16.666666666666664%
+}
+.col-lg-offset-3 {
+	margin-left: 25%
+}
+.col-lg-offset-4 {
+	margin-left: 33.33333333333333%
+}
+.col-lg-offset-5 {
+	margin-left: 41.66666666666667%
+}
+.col-lg-offset-6 {
+	margin-left: 50%
+}
+.col-lg-offset-7 {
+	margin-left: 58.333333333333336%
+}
+.col-lg-offset-8 {
+	margin-left: 66.66666666666666%
+}
+.col-lg-offset-9 {
+	margin-left: 75%
+}
+.col-lg-offset-10 {
+	margin-left: 83.33333333333334%
+}
+.col-lg-offset-11 {
+	margin-left: 91.66666666666666%
+}
+}
+</style>
+</head>
+
+<body class="page page-id-94 page-parent page-template-default">
+<header id="header" class="navbar navbar-inverse navbar-fixed-top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" style="margin-top:25px; margin-right:15px" data-target=".navbar-collapse"> <span class="sr-only"> Toggle navigation </span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <div id="visible-phone-logo" style="height:60px;"> <a class="navbar-brand" href="https://horizonplatform.io/" > <img src="https://horizonplatform.io/wp-content/uploads/2015/03/horizon-logo31.png" alt="Horizon Platform" width="48" style="margin-right:10px; float:left;" />
+        <div style="font-size:18px;margin-top:0px; float:left;">HORIZON</div>
+        </a> </div>
+      <div id="visible-desktop-logo"> <a class="navbar-brand" href="https://horizonplatform.io/" > <img src="https://horizonplatform.io/wp-content/uploads/2015/03/horizon-logo31.png" alt="Horizon Platform" style="margin-right:20px; float:left;" />
+        <div style="font-size:24px; float:left;">HORIZON</div>
+        </a> </div>
+    </div>
+    <div class="hidden-xs">
+      <ul id="menu-main-menu" class="nav navbar-nav navbar-main"><li id="menu-item-315" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-303 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-315 dropdown <?php echo $explorermenu; ?>"><a title="Home" href="https://horizonplatform.io/">Home <i class="icon-angle-down"></i></a>
+<ul role="menu" class=" dropdown-menu">
+	<li id="menu-item-809" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-809"><a title="Main Home Page" href="https://horizonplatform.io">Main Home Page</a></li>
+	<li id="menu-item-812" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-812"><a title="Web Wallet" href="http://account.horizonplatform.io">Web Wallet</a></li>
+	<li id="menu-item-810" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-810 dropdown sub-menu <?php echo $explorermenu; ?>"><a title="Block Explorer" href="https://explorer.horizonplatform.io">Block Explorer <i class="icon-angle-right"></i></a>
+	<ul role="menu" class=" dropdown-menu">
+		<li id="menu-item-813" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-813 <?php echo $latestblocksmenu; ?>"><a title="Latest Blocks" href="https://explorer.horizonplatform.io/?page=blocks">Latest Blocks</a></li>
+		<li id="menu-item-814" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-814 <?php echo $latesttransactionsmenu; ?>"><a title="Latest Transactions" href="https://explorer.horizonplatform.io/?page=transactions">Latest Transactions</a></li>
+	</ul>
+</li>
+	<li id="menu-item-811" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-811"><a title="Horizon Faucet" href="https://faucet.horizonplatform.io">Horizon Faucet</a></li>
+</ul>
+</li>
+<li id="menu-item-317" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-317 dropdown  <?php echo $chartsmenu; ?>"><a title="About" href="https://horizonplatform.io/about/">About <i class="icon-angle-down"></i></a>
+<ul role="menu" class=" dropdown-menu">
+	<li id="menu-item-472" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-472"><a title="The Horizon Story" href="https://horizonplatform.io/about/">The Horizon Story</a></li>
+	<li id="menu-item-409" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-409"><a title="The Horizon Team" href="https://horizonplatform.io/about/the-horizon-team/">The Horizon Team</a></li>
+	<li id="menu-item-480" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-480"><a title="Development Roadmap" href="https://horizonplatform.io/about/development-roadmap/">Development Roadmap</a></li>
+	<li id="menu-item-504" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-504"><a title="Statement Of Intent" href="https://horizonplatform.io/about/statement-of-intent/">Statement Of Intent</a></li>
+	<li id="menu-item-805" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-805 dropdown sub-menu <?php echo $chartsmenu; ?>"><a title="Information Charts" href="#">Information Charts <i class="icon-angle-right"></i></a>
+	<ul role="menu" class=" dropdown-menu">
+		<li id="menu-item-806" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-806 <?php echo $distributionchartmenu; ?>"><a title="Horizon Distribution" href="https://explorer.horizonplatform.io/?page=graphs&amp;graph=distribution">Horizon Distribution</a></li>
+		<li id="menu-item-807" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-807 <?php echo $nodeschartmenu; ?>"><a title="Horizon Nodes" href="https://explorer.horizonplatform.io/?page=graphs&amp;graph=nodes">Horizon Nodes</a></li>
+		<li id="menu-item-808" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-808 <?php echo $forgerschartmenu; ?>"><a title="Horizon Forgers" href="https://explorer.horizonplatform.io/?page=graphs&amp;graph=forgers">Horizon Forgers</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<li id="menu-item-391" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-391"><a title="News" href="https://horizonplatform.io/category/news/">News</a></li>
+<li id="menu-item-785" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-785 dropdown <?php echo $assetsmenu; ?>"><a title="Assets" href="https://horizonplatform.io/category/trusted-horizon-assets/">Assets <i class="icon-angle-down"></i></a>
+<ul role="menu" class=" dropdown-menu">
+	<li id="menu-item-799" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-799"><a title="Trusted Horizon Assets" href="https://horizonplatform.io/category/trusted-horizon-assets/">Trusted Horizon Assets</a></li>
+	<li id="menu-item-798" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-798"><a title="How To Become A Trusted Asset" href="https://horizonplatform.io/how-to-become-a-trusted-asset/">How To Become A Trusted Asset</a></li>
+	<li id="menu-item-800" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-800  <?php echo $assetsmenu; ?>"><a title="Complete Assets List" href="https://explorer.horizonplatform.io/?page=assets">Complete Assets List</a></li>
+</ul>
+</li>
+<li id="menu-item-690" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-690 dropdown <?php echo $accountsmenu; ?>"><a title="Community" href="https://horizonplatform.io/community/">Community <i class="icon-angle-down"></i></a>
+<ul role="menu" class=" dropdown-menu">
+	<li id="menu-item-802" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-802"><a title="Community Overview" href="https://horizonplatform.io/community/">Community Overview</a></li>
+	<li id="menu-item-801" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-801 <?php echo $accountsmenu; ?>"><a title="Account Holders" href="https://explorer.horizonplatform.io/?page=accounts">Account Holders</a></li>
+    <li id="menu-item-963" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-961 current_page_item menu-item-963  <?php echo $accountsmenu; ?>"><a title="Join The Horizon Team" href="https://horizonplatform.io/community/join-the-horizon-team/">Join The Horizon Team</a></li>
+</ul>
+</li>
+<li id="menu-item-815" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-815"><a title="Tutorials" href="https://horizonplatform.io/category/tutorials/">Tutorials</a></li>
+<li id="menu-item-507" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-507 dropdown"><a title="Get Horizon" href="https://horizonplatform.io/get-started/">Get Horizon <i class="icon-angle-down"></i></a>
+<ul role="menu" class=" dropdown-menu">
+	<li id="menu-item-508" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-508"><a title="Get Started" href="https://horizonplatform.io/get-started/">Get Started</a></li>
+	<li id="menu-item-434" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-434"><a title="Horizon Wallets" href="https://horizonplatform.io/get-started/wallets/">Horizon Wallets</a></li>
+	<li id="menu-item-668" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-668"><a title="Horizon Markets" href="https://horizonplatform.io/get-started/horizon-markets/">Horizon Markets</a></li>
+</ul>
+</li>
+</ul>
+    </div>
+    <div id="mobile-menu" class="visible-xs">
+      <div class="collapse navbar-collapse">
+        <ul id="menu-main-menu-1" class="nav navbar-nav">
+          <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-315"><a title="Home" href="https://horizonplatform.io/">Home</a></li>
+          <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-94 current_page_item current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children menu-item-317 active active active"><a title="About" href="https://horizonplatform.io/about/">About</a> <span class="menu-toggler" data-toggle="collapse" data-target=".collapse-317"> <i class="icon-angle-right"></i><i class="icon-angle-down"></i> </span>
+            <ul role="menu" class="collapse collapse-317 ">
+              <li class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-94 current_page_item menu-item-472 active"><a title="The Horizon Story" href="https://horizonplatform.io/about/">The Horizon Story</a></li>
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-409"><a title="The Horizon Team" href="https://horizonplatform.io/about/the-horizon-team/">The Horizon Team</a></li>
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-480"><a title="Development Roadmap" href="https://horizonplatform.io/about/development-roadmap/">Development Roadmap</a></li>
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-504"><a title="Statement Of Intent" href="https://horizonplatform.io/about/statement-of-intent/">Statement Of Intent</a></li>
+            </ul>
+          </li>
+          <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-391"><a title="News" href="https://horizonplatform.io/category/news/">News</a></li>
+          <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-785"><a title="News" href="https://horizonplatform.io/category/assets/">Assets</a></li>
+          <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-690"><a title="Community" href="https://horizonplatform.io/community/">Community</a></li>
+          <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-507"><a title="Get Horizon" href="https://horizonplatform.io/get-started/">Get Horizon</a> <span class="menu-toggler" data-toggle="collapse" data-target=".collapse-507"> <i class="icon-angle-right"></i><i class="icon-angle-down"></i> </span>
+            <ul role="menu" class="collapse collapse-507 ">
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-508"><a title="Get Started" href="https://horizonplatform.io/get-started/">Get Started</a></li>
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-434"><a title="Horizon Wallets" href="https://horizonplatform.io/get-started/wallets/">Horizon Wallets</a></li>
+              <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-668"><a title="Horizon Markets" href="https://horizonplatform.io/get-started/horizon-markets/">Horizon Markets</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--/.visible-xs--> 
+  </div>
+</header>
+<!--/#header-->
+
+<div id="visible-desktop-news" class="su-row" style="margin-top:6px;margin-bottom:0px;">
+  <div class="su-column su-column-size-1-1">
+    <div class="ticker-news" style="background-color:#09f"> <span>Price:</span>
+      <?php
+
+// define pairs
+	$pair = "hz_btc";
+
+	// fetch data
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, "http://api.cryptocoincharts.info/tradingPair/".$pair);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+	$rawData = curl_exec($curl);
+	curl_close($curl);
+	
+	// decode to array
+	$data = json_decode($rawData);
+	
+	$risefall = $data->price/$data->price_before_24h;
+	$risefall = $risefall*100;
+	$risefall = round($risefall-100,2);
+	if ($risefall < "0") {
+    $risefall = "<span style='background-color:#f00'>".$data->price." BTC &nbsp;&nbsp;&nbsp;".$risefall."%</span>";
+} elseif ($risefall > "0") {
+    $risefall = "<span style='background-color:#0f0; color:#000'>".$data->price." BTC &nbsp;&nbsp;&nbsp;".$risefall."%</span>";
+} else {
+   $risefall = "<span style='background-color:#09f;'>".$data->price." BTC &nbsp;&nbsp;&nbsp;".$risefall."%</span>";
+}
+	// show data
+	echo $risefall;
+
+?>
+      <span> News </span>
+      <ul id="ticker" style="margin-top:3px;">
+        <?php
+	$rss = new DOMDocument();
+	$rss->load('https://horizonplatform.io/category/news/feed/');
+	$feed = array();
+	foreach ($rss->getElementsByTagName('item') as $node) {
+		$item = array ( 
+			'title' => $node->getElementsByTagName('title')->item(0)->nodeValue,
+			'desc' => $node->getElementsByTagName('description')->item(0)->nodeValue,
+			'link' => $node->getElementsByTagName('link')->item(0)->nodeValue,
+			'date' => $node->getElementsByTagName('pubDate')->item(0)->nodeValue,
+			);
+		array_push($feed, $item);
+	}
+	$limit = 5;
+	for($x=0;$x<$limit;$x++) {
+		$title = str_replace(' & ', ' &amp; ', $feed[$x]['title']);
+		$link = $feed[$x]['link'];
+		$description = $feed[$x]['desc'];
+		$date = date('l F d, Y', strtotime($feed[$x]['date']));
+		echo '<li><a href="'.$link.'" title="'.$title.'">'.$title.'</a></li>';
+	}
+?>
+      </ul>
+      <script type="text/javascript">
+
+				jQuery(document).ready(function() {
+
+					
+						createTicker();
+
+					
+				});
+
+			</script> 
+    </div>
+    <!-- .ticker-news --> 
+    
+  </div>
+</div>
+</div>
+<? // =$this->element('navigation')?>
+<?=$this->data['layout_content']?>
+<?=$this->element('styleScript')?>
+<footer id="footer" class="alizarin">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <h5>Current Horizon Version: <?php echo $version ?></h5>
+      </div>
+      <div class="col-sm-6">
+        <ul class="pull-right">
+          <li id="menu-item-776" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-776"><a href="https://explorer.horizonplatform.io/?page=nodecheck">Node Checker</a></li>
+          <li id="menu-item-777" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-777"><a href="https://faucet.horizonplatform.io">Faucet</a></li>
+          <li> <a id="gototop" class="gototop" href="#"><i class="icon-chevron-up"></i></a><!--#gototop--> 
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+<!--/#footer-->
+
+<link rel='stylesheet' id='su-box-shortcodes-css'  href='https://horizonplatform.io/wp-content/plugins/shortcodes-ultimate/assets/css/box-shortcodes.css?ver=4.9.3' type='text/css' media='all' />
+</body>
+</html>

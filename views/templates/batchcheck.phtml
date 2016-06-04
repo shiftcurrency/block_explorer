@@ -1,0 +1,21 @@
+<div class="container-fluid" style="margin-top: 60px;">
+  <div class="row">
+  <h1>Node Checker</h1>
+  <p>You can check the state of your static node here</p>
+  <?=$this->element('nodecheckforms')?>
+  </div>
+
+  <div id="checkNodeDiv">
+    <?php
+    if(isset($this->data['results'])):
+      foreach($this->data['results'] as $result): ?>
+        <?=$this->element('nodestate',$result)?>
+      <?php endforeach;
+    endif; ?>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#checkNodeForm').hide();
+  $('#checkNodesForm').show();
+</script>

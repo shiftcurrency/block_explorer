@@ -1,0 +1,56 @@
+<table id="transactions" class="display" data-page-length='25'>
+  <thead>
+    <tr>
+      <th style="padding-left:10px;"><h5>ID</h5></th>
+      <th style="text-align:center;"><h5>Age/Time</h5></th>
+      <th style="text-align:center;"><h5>Amount (HZ)</h5></th>
+      <th style="text-align:center; white-space:nowrap"><h5>Fee (HZ)</h5></th>
+      <th style="text-align:center;"><h5>Sender</h5></th>
+      <th style="text-align:right;"><h5>Recipient</h5></th>
+      <?php if(isset($this->data['element']['extended']) &&
+        $this->data['element']['extended'] == true):?>
+      <?php endif; ?>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data['transactions'] as $transaction): ?>
+    <tr>
+      <td><p><a href="?page=transaction&id=<?=$transaction->transaction?>">
+          <?=$transaction->transaction?>
+          </a></p></td>
+      <td style="text-align:center;" title="<?=$transaction->time?>"><p style="white-space:nowrap;"><?=$transaction->time?><br /><span class="mainsmall"><?=$this->timeElapsed($transaction->time)?></span></p></td>
+      <td style="text-align:center;"><p>
+          <?=$transaction->amountNQT/100000000?>
+          <?php
+          if(isset($this->data['knownAddresses'][$transaction->sender])):
+            $senderTitle = $this->data['knownAddresses'][$transaction->sender];
+          else:
+            $senderTitle = $transaction->senderRS;
+          endif;
+          $sender = '<a href="?page=account&id='.$transaction->sender.'">'.$senderTitle.'</a>';
+          if(isset($this->data['knownAddresses'][$transaction->recipient])):
+            $recipientTitle = $this->data['knownAddresses'][$transaction->recipient];
+          else:
+            $recipientTitle = $transaction->recipientRS;
+          endif;
+          $recipient = '<a href="?page=account&id='.$transaction->recipient.'">'.$recipientTitle.'</a>';
+
+          if(strpos($sender,'bounty') !== false): ?>
+          <?php else: ?>
+          <?php endif; ?>
+        </p></td>
+      <td style="text-align:center;"><p class="redtext">
+          <?php if(isset($this->data['element']['extended']) && $this->data['element']['extended'] == true): ?>
+          <?=$transaction->feeNQT/100000000?>
+          <?php endif; ?>
+        </p></td>
+      <td style="text-align:center; text-transform:uppercase;"><p>
+          <?=$sender?>
+        </p></td>
+      <td style="text-align:right; text-transform:uppercase;"><p>
+          <?=$recipient?>
+        </p></td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>

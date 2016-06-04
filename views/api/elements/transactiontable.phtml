@@ -1,0 +1,13 @@
+<?php
+$i = 0;
+foreach($this->data['transactions'] as $transaction):
+  $i++;
+  $data['Transaction'][$i]['id'] = $transaction->transaction;
+  $data['Transaction'][$i]['age'] = $this->timeElapsed($transaction->time);
+  $data['Transaction'][$i]['amount'] = $transaction->amountNQT/100000000;
+  if(isset($this->data['element']['extended']) && $this->data['element']['extended'] == true):
+    $data['Transaction'][$i]['fee'] = $transaction->feeNQT/100000000;
+  endif;
+endforeach;
+
+echo json_encode($data);

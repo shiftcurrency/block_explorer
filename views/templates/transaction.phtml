@@ -1,0 +1,174 @@
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#transaction').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ASSET HERE" },
+		  "order": [[ 4, "desc" ]]
+    } );
+} );
+</script>
+
+
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Block #<?= $this->data['block']->height ?></h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+    
+    
+    <?php if(isset($this->data['transaction']->transaction)): ?>
+    <h1>Transaction #<?= $this->data['transaction']->transaction ?></h1>
+     <p><?=$this->data['transaction']->time?> (<?=$this->timeElapsed($this->data['transaction']->time)?> ago)</p>
+     <?php else: ?>
+    <h1>Error</h1>
+    <p>Transaction not found - if the number is definitely valid, it's probably not indexed yet. Try again in a few minutes.</p>
+  <?php endif; ?>
+    
+
+      
+    </div>
+   
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Block #<?= $this->data['block']->height ?></h2>
+    </div>
+    <p>The complete list of Horizon asgdfsets.</p>
+  </div>
+</section>
+
+
+
+
+
+
+
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix"> <table>
+    <tr>
+      <td><h5 style="margin-top:2px;">Sender</h5></td>
+      <td><p style="text-transform:uppercase;"><a href="?page=account&id=<?=$this->data['transaction']->sender?>">
+          <?php if(isset($this->data['knownAddresses'][$this->data['transaction']->sender])): ?>
+          <?=$this->data['knownAddresses'][$this->data['transaction']->sender];?>
+          <?php else: ?>
+          <?=$this->data['transaction']->senderRS?>
+          <?php endif; ?>
+          </a></p>
+        </td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Recipient</h5></td>
+      <td><p style="text-transform:uppercase;"><a href="?page=account&id=<?=$this->data['transaction']->recipient?>">
+          <?php if(isset($this->data['knownAddresses'][$this->data['transaction']->recipient])): ?>
+            <?=$this->data['knownAddresses'][$this->data['transaction']->recipient];?>
+          <?php else: ?>
+            <?=$this->data['transaction']->recipientRS?>
+          <?php endif; ?>
+        </a></p>
+      </td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Type</h5></td>
+      <td><p style="text-transform:uppercase;"><?php
+        switch($this->data['transaction']->type)
+        {
+          case 0:
+            echo 'send';
+            break;
+          case 1:
+            echo 'message/alias';
+            break;
+          case 2:
+            echo 'asset';
+            break;
+        }
+      ?></p></td>
+    </tr>
+    <?php if($this->data['transaction']->type == 0): ?>
+      <tr>
+        <td><h5 style="margin-top:2px;">Amount</h5></td>
+        <td><p><span class="greentext"><?=$this->data['transaction']->amountNQT/100000000?></span><span class="hzlogo">HZ</span></p></td>
+      </tr>
+    <?php endif;
+    if(isset($this->data['transaction']->attachment->message)): ?>
+      <tr>
+        <td><h5 style="margin-top:2px;">Message</h5></td>
+        <td><p><span class="greentext"><?=htmlspecialchars($this->data['transaction']->attachment->message)?></span><span class="hzlogo">HZ</span></p></td>
+      </tr>
+    <?php endif; ?>
+    <tr>
+      <td><h5 style="margin-top:2px;">Fee</h5></td>
+      <td><p><span class="redtext"><?=$this->data['transaction']->feeNQT/100000000?></span><span class="hzlogo">HZ</span></p></td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Deadline</h5></td>
+      <td><p><?=$this->data['transaction']->deadline?></p></td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Block</h5></td>
+      <td><p><a href="?page=block&height=<?=$this->data['transaction']->height?>"><?=$this->data['transaction']->height?></a></p></td>
+    <tr>
+      <td><h5 style="margin-top:2px;">Block Time</h5></td>
+      <td><p><?=$this->data['transaction']->blockTime?> (<?=$this->timeElapsed($this->data['transaction']->blockTime)?> ago)</p></td>
+    <tr>
+      <td><h5 style="margin-top:2px;">Confirmations</h5></td>
+      <td><p><?=$this->data['transaction']->confirmations?></p></td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Full Hash</h5></td>
+      <td><p><?=$this->data['transaction']->fullHash?></p></td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Signature</h5></td>
+      <td><p><input type="text" style="width:100%; border: 0px;" value="<?=$this->data['transaction']->signature?>" /></p></td>
+    </tr>
+    <tr>
+      <td><h5 style="margin-top:2px;">Signature Hash</h5></td>
+      <td><p><?=$this->data['transaction']->signatureHash?></p></td>
+    </tr>
+  </table>
+</div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td colspan="2"><p class="dropcap">This page shows the information for transaction #<span style="color:#f00"><?= $this->data['transaction']->transaction ?></span> which was generated <span style="color:#f00"><?=$this->timeElapsed($this->data['transaction']->time)?> ago</span>.</p>
+                      
+                      </td>
+                </tr>
+               
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

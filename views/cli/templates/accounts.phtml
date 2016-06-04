@@ -1,0 +1,6 @@
+| #   | Account | Balance |
+
+<?php $i = 0; foreach($this->data['accounts'] as $account): $i++; ?>
+| <?=$i?> | <?php if(isset($this->data['knownAddresses'][$account['id']])): ?><?=$this->data['knownAddresses'][$account['id']];?><?php else: ?><?=$account['id']?><?php endif; ?> | <?=$account['balance']?> |
+
+<?php endforeach; ?>

@@ -1,0 +1,25 @@
+<?php
+if (isset($this->data['asset']->asset)){
+	
+	$data['Asset']['id'] = $this->data['asset']->asset;
+	
+	if(isset($this->data['knownAddresses'][$this->data['asset']->account])):
+	  $data['Asset']['account'] = $this->data['knownAddresses'][$this->data['asset']->account];
+	else:
+	  $data['Asset']['account'] = $this->data['asset']->account;
+	endif;
+	
+	$data['Asset']['quantityQNT'] = $this->data['asset']->quantityQNT;
+	$data['Asset']['decimals'] = $this->data['asset']->decimals;
+	
+	$data['Asset']['quantity'] = $this->data['asset']->quantity;
+	
+	$data['Asset']['description'] = $this->data['asset']->description;
+	$data['Asset']['accountRS'] = $this->data['asset']->accountRS;
+	$data['Asset']['numberOfTrades'] = $this->data['asset']->numberOfTrades;
+	
+} else {
+	$data=array("errorCode"=>5, "errorDescription"=>"Unknown asset");
+}
+
+echo json_encode($data);

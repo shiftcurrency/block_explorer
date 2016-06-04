@@ -1,0 +1,9 @@
+| ID            | <?=$this->data['asset']['id']?>
+| name          | <?=$this->data['asset']['name']?>
+| account       | <?php if(isset($this->data['knownAddresses'][$this->data['asset']['account']])): ?><?=$this->data['knownAddresses'][$this->data['asset']['account']];?><?php else: ?><?=$this->data['asset']['account']?><?php endif; ?>
+| accountRS     | <?=$this->data['asset']['accountRS']?>
+| quantityQNT   | <?=$this->data['asset']['quantityQNT']?>
+| decimals      | <?=$this->data['asset']['decimals']?>
+| quantity      | <?=$this->data['asset']['quantity']?>
+| description   | <?=$this->data['asset']['description']?>
+| numberOfTrades| <?=$this->data['asset']['numberOfTrades']?>

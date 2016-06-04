@@ -1,0 +1,112 @@
+<?php
+if(isset($this->data['earlier'])):
+  $button = '<a type="button" class="btn btn-primary" href="?page=account&id='.$this->data['id'].'&timestamp='.$this->data['earlier'].'"><< earlier</a>';
+else:
+  $button = '<a type="button" class="btn btn-primary" href="?page=account&id='.$this->data['id'].'"><< back</a>';
+endif;
+
+if(isset($this->data['later'])):
+  $button .= ' <a type="button" class="btn btn-primary" style="float: right;" href="?page=account&id='.$this->data['id'].'&timestamp='.$this->data['later'].'&direction=ASC">later >></a>';
+endif;
+?>
+
+<div class="container-fluid">
+  <div class = "row">
+    <div class="col-md-6">
+      <?=$button?>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table>
+        <thead>
+          <tr>
+            <th>amount</th>
+            <th>sender</th>
+            <th>&nbsp;&nbsp;in/out</th>
+            <th>recipient</th>
+            <th>
+              <a href="#" class="switchtimeAGE">age</a> /
+              <a href="#" class="switchTIMEage">time</a>
+            </th>
+            <th>block/id</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach($this->data['transactions'] as $transaction):
+          $img = 'in';
+          if(isset($this->data['knownAddresses'][$transaction['sender']])):
+            $senderTitle = $this->data['knownAddresses'][$transaction['sender']];
+          else:
+            $senderTitle = $transaction['senderrs'];
+          endif;
+          $sender = '<a href="?page=account&id='.$transaction['sender'].'">'.$senderTitle.'</a>';
+          if(isset($this->data['knownAddresses'][$transaction['recipient']])):
+            $recipientTitle = $this->data['knownAddresses'][$transaction['recipient']];
+          else:
+            $recipientTitle = $transaction['recipientrs'];
+          endif;
+          $recipient = '<a href="?page=account&id='.$transaction['recipient'].'">'.$recipientTitle.'</a>';
+          if($transaction['sender'] == $this->data['id']):
+            $sender = $senderTitle;
+            $img = 'out';
+          else:
+            $recipient = $recipientTitle;
+          endif;
+
+          if(isset($transaction['height'])):
+              $sender = 'Forged block';
+          endif;
+
+          if(isset($transaction['height'])):
+            $blockheight = $transaction['height'];
+          else:
+            $blockheight = $transaction['block']['height'];
+          endif;
+          ?>
+          <tr>
+            <td>
+              <?php if(isset($transaction['height'])): ?>
+                <?=$transaction['totalfee']?>
+              <?php else: ?>
+                <?=$transaction['amount']?>
+              <?php endif; ?>
+              HZ
+            </td>
+            <td>
+              <?=$sender?>
+            </td>
+            <td>
+              <?php if(strpos($sender,'bounty') !== false): ?>
+                <img src="/img/bounty.png" title="bounty" alt="bounty" />
+              <?php else: ?>
+                <img src="/img/nobounty.png" />
+              <?php endif; ?>
+              <img src="/img/arrow_<?=$img?>.png" style="height: 20px;" />
+            </td>
+            <td>
+              <?=$recipient?>
+            </td>
+            <td class="timeAGE" title="<?=$transaction['time']?>"><?=$this->timeElapsed($transaction['time'])?></td>
+            <td class="TIMEage" title="<?=$transaction['time']?>"><?=$transaction['time']?></td>
+            <td>
+              <?php if(isset($transaction['id'])): ?>
+                <a href="?page=transaction&id=<?=$transaction['id']?>"><?=$transaction['id']?></a>
+              <?php else: ?>
+                <a href="?page=block&height=<?=$blockheight?>"><?=$blockheight?></a>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class = "row">
+    <div class="col-md-6">
+      <?=$button?>
+    </div>
+  </div>
+</div>

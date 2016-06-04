@@ -1,0 +1,119 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Nodes Chart</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Nodes Chart</h1>
+    </div>
+    <p>Hallmarked nodes on the Horizon network.</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Nodes Chart</h2>
+    </div>
+    <p>Hallmarked nodes on the Horizon network.</p>
+  </div>
+</section>
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+        <div class="su-row">
+          <div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix">
+              <div id="graphbox" style="max-width: 950px; height: 456px;">Loading Horizon Nodes Chart...</div>
+            </div>
+          </div>
+          <div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+              <table>
+                <tr>
+                  <td><p class="dropcap">This page shows the current number of nodes on the Horizon network.</p>
+                    <p>You can save this graph to your computer by clicking the icon in the top right corner and selecting your desired format.</p></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>
+<script>
+  do_chart = function() {
+    $("#graphlinks").show();
+    $('#graphbox').highcharts({
+      chart: {
+        defaultSeriesType: 'line',
+        marginRight: 70,
+        marginBottom: 25
+      },
+      title: {
+        text: 'Horizon Hallmarked Nodes',
+        x: -20 //center
+      },
+      subtitle: {
+        text: 'Source: explorer.horizonplatform.io',
+        x: -20
+      },
+      xAxis: {
+        type: 'datetime'
+      },
+      yAxis: {
+        labels: {
+          formatter: function(){
+            return Highcharts.numberFormat(this.value,
+              0,
+              '',
+              ','
+            );
+          }
+        },
+        showFirstLabel: false,
+        title: {
+          text: 'Hallmarked nodes'
+        },
+        plotLines: [{
+          width: 1,
+          color: '#808080'
+        }]
+      },
+      tooltip: {
+        formatter: function(){
+          return Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',this.x)+'<br /><b>Nodes:</b> '+Highcharts.numberFormat(this.y,
+          0,
+          '',
+          ',');
+        }
+      },
+      plotOptions: {
+        series: {
+          point: {
+            events: {
+              click: function(e) {
+                location.href = e.point.url;
+                e.preventDefault();
+              }
+            }
+          },
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      credits: {
+        enabled: false
+      },
+      series: <?=$this->data['graph']?>
+    });
+  }
+  setTimeout("do_chart()", 50);
+</script> 

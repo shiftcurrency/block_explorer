@@ -1,0 +1,67 @@
+<?php
+$button = '';
+#if(isset($this->data['earlier'])):
+#  $button = '<a type="button" class="btn btn-primary" href="?page=transactions&timestamp='.$this->data['earlier'].'"><< earlier</a>';
+#else:
+#  $button = '<a type="button" class="btn btn-primary" href="?page=transactions"><< back</a>';
+#endif;
+
+#if(isset($this->data['later'])):
+#$button .= ' <a type="button" class="btn btn-primary" style="float: right;" href="?page=transactions&timestamp='.$this->data['later'].'&direction=ASC">later >></a>';
+#endif;
+?>
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#transactions').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH TRANSACTION INFO HERE" },
+		 "order": [[ 1, "desc" ]]
+    } );
+} );
+</script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Latest Transactions</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Latest Transactions</h1>
+    </div>
+    <p>Who has been using Horizon recently.</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Latest Transactions</h2>
+    </div>
+    <p>Who has been using Horizon recently.</p>
+  </div>
+</section>
+<div class="container">
+<div id="content" class="site-content" role="main">
+  <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+    <div class="entry-content">
+      <div class="su-row">
+        <div class="su-column su-column-size-3-4">
+          <div class="su-column-inner su-clearfix" >
+            <?=$this->element('transactiontable',array('extended'=>true));?>
+          </div>
+        </div>
+        <div class="su-column su-column-size-1-4">
+          <div class="su-column-inner su-clearfix">
+            <table>
+              <tr>
+                <td><p class="dropcap">This page shows the latest transactions that have occured on the Horizon Network.</p><p>To view a transaction in more detail, click on the <strong>ID</strong> number in the left column. You can also sort the information by using the controls at the top.
+</h5></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>

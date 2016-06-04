@@ -1,0 +1,65 @@
+some TODOs for the existing block explorer code 
+that I noticed (while extending it with the asset page): 
+
+---
+
+if $config['debug'] = true then these warnings appear:
+
+Notice: Use of undefined constant REQUEST_URI - assumed 'REQUEST_URI' in /var/www/hzbe/views/layouts/default.phtml on line 7
+
+---
+
+/api.php?page=transaction&id=1
+Notice: Undefined property: stdClass::$timestamp in /var/www/hzbe/classes/model.php on line 302
+Notice: Undefined property: stdClass::$deadline in /var/www/hzbe/classes/model.php on line 302
+Notice: Undefined property: stdClass::$timestamp in /var/www/hzbe/classes/model.php on line 304
+Notice: Undefined property: stdClass::$blockTimestamp in /var/www/hzbe/classes/model.php on line 305
+Notice: Undefined property: stdClass::$transaction in /var/www/hzbe/views/api/templates/transaction.phtml on line 2
+Notice: Undefined property: stdClass::$sender in /var/www/hzbe/views/api/templates/transaction.phtml on line 3
+Notice: Undefined property: stdClass::$sender in /var/www/hzbe/views/api/templates/transaction.phtml on line 6
+Notice: Undefined property: stdClass::$amountNQT in /var/www/hzbe/views/api/templates/transaction.phtml on line 15
+Notice: Undefined property: stdClass::$feeNQT in /var/www/hzbe/views/api/templates/transaction.phtml on line 16
+Notice: Undefined property: stdClass::$height in /var/www/hzbe/views/api/templates/transaction.phtml on line 17
+Notice: Undefined property: stdClass::$confirmations in /var/www/hzbe/views/api/templates/transaction.phtml on line 21
+Notice: Undefined property: stdClass::$signature in /var/www/hzbe/views/api/templates/transaction.phtml on line 22
+{"Transaction":{"id":null,"sender":null,"recipient":"genesis\n","amount":0,"fee":0,"block":null,"time":40046335,"deadline":40046335,"confirmations":null,"signature":null},"transaction":{"age":"4320 years"}}
+
+better would be to return an error code, see e.g. my new:
+
+/api.php?page=asset&id=1
+{"errorCode":5,"errorDescription":"Unknown asset"}
+
+---
+
+http://188.226.155.38:8080/hzbe/?page=account&id=3303930342834814977
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 32
+Notice: Undefined property: stdClass::$recipientRS in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 35
+Notice: Undefined property: stdClass::$recipient in /var/www/hzbe/views/elements/accountTransactionTable.phtml on line 37
+
+---
+
+The w3validator results are ALMOST good now:
+https://validator.w3.org -> http://188.226.155.38:8080/hzbe/?page=asset&id=5903523947573024709
+
+https://validator.w3.org/check?uri=http%3A%2F%2F188.226.155.38%3A8080%2Fhzbe%2F%3Fpage%3Dasset%26id%3D5903523947573024709&charset=%28detect+automatically%29&doctype=Inline&ss=1&outline=1&group=1&st=1&user-agent=W3C_Validator%2F1.3+http%3A%2F%2Fvalidator.w3.org%2Fservices
+
+BUT "Line 509, column 6: Stray end tag div."
+ 
+That is the last line before my asset.phtml code starts.
+
+---

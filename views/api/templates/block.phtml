@@ -1,0 +1,21 @@
+<?php
+if(isset($this->data['block']->height)):
+  $data['block']['height'] = $this->data['block']->height;
+  $data['block']['id'] = $this->data['block']->block;
+  $data['block']['age'] = $this->timeElapsed($this->data['block']->time);
+
+  if(isset($this->data['knownAddresses'][$this->data['block']->generator])):
+    $data['block']['generator'] = $this->data['knownAddresses'][$this->data['block']->generator];
+  else:
+    $data['block']['generator'] = $this->data['block']->generator;
+  endif;
+
+  if(count($this->data['block']->transactions) > 0):
+    $data['block']['transactions'] = $this->data['block']->transactions;
+  endif;
+
+  $data['block']['total_amount'] = $this->data['block']->totalAmountNQT/100000000;
+  $data['block']['total_fees'] = $this->data['block']->totalFeeNQT/100000000;
+
+  echo json_encode($data);
+endif;

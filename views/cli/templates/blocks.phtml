@@ -1,0 +1,30 @@
+<?php
+if(isset($this->data['earlier'])):
+  $button = '<a type="button" class="btn btn-primary" href="?page=blocks&height='.$this->data['earlier'].'"><< earlier</a>';
+else:
+  $button = '<a type="button" class="btn btn-primary" href="?page=blocks"><< back</a>';
+endif;
+
+if(isset($this->data['later'])):
+  $button .= ' <a type="button" class="btn btn-primary" href="?page=blocks&height='.$this->data['later'].'&direction=ASC">later >></a>';
+endif;
+?>
+<div class="container-fluid">
+  <div class = "row">
+    <div class="col-md-6">
+      <?=$button?>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <?php echo $this->element('blocktable'); ?>
+    </div>
+  </div>
+
+  <div class = "row">
+    <div class="col-md-6">
+      <?=$button?>
+    </div>
+  </div>
+</div>

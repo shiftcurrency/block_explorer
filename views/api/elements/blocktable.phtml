@@ -1,0 +1,14 @@
+<?php
+$i = 0;
+foreach($this->data['blocks'] as $row):
+  $i++;
+  $data['Block'][$i]['height'] = $row->height;
+
+  $data['Block'][$i]['age'] = $this->timeElapsed($row->time);
+  $data['Block'][$i]['generator'] = $row->generatorRS;
+  $data['Block'][$i]['transactions'] = count($row->transactions);
+  $data['Block'][$i]['amount'] = $row->totalAmountNQT/100000000;
+  $data['Block'][$i]['fees'] = $row->totalFeeNQT/100000000;
+endforeach;
+
+echo json_encode($data);

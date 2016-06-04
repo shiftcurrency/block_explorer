@@ -1,0 +1,31 @@
+<?php
+if(isset($this->data['nodeResponse'])):
+  if($this->data['nodeResponse'] == false): ?>Failed to connect to node <?=$this->data['nodeAddress']?> - is HZ running? Did you open port 7774?
+
+<?php else: ?>
+Response from your node
+| Address  | <?=$this->data['nodeResponse']->announcedAddress?>
+
+| Hallmark | <?php if(isset($this->data['nodeResponse']->hallmark) && !empty($this->data['nodeResponse']->hallmark)): ?>set<?php else: ?>not set<?php endif; ?>
+
+
+Our data
+| Address                  | <?=$this->data['apiResponse']->ip_address?>
+
+| State                    | <?php
+            $offline = strtotime($this->data['apiResponse']->last_offline);
+            $online = strtotime($this->data['apiResponse']->last_online);
+            if($online > $offline):
+              echo 'ONLINE';
+            else:
+              echo 'OFFLINE';
+            endif;
+            ?>(last checked: <?=date('Y-m-d H:i:s',strtotime($this->data['apiResponse']->updated_at))?>)
+| Total uptime             | <?=$this->data['apiResponse']->full_uptime?>m
+| Last payout              | <?=date('Y-m-d H:i:s',strtotime($this->data['apiResponse']->last_payout))?>
+
+| Uptime until next payout | <?=1440 - ($this->data['apiResponse']->full_uptime - $this->data['apiResponse']->last_payout_uptime)?>m
+| Hallmark                 | <?php if($this->data['nodeResponse']->hallmark == $this->data['apiResponse']->last_hallmark && isset($this->data['nodeResponse']->hallmark)): ?>correct<?php elseif(!isset($this->data['nodeResponse']->hallmark)): ?>not submitted by node<?php else: ?>differs<?php endif; ?>
+
+<?php endif;
+endif; ?>

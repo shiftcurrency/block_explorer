@@ -1,0 +1,44 @@
+<table id="transactionshome" class="display" data-page-length='10'>
+  <thead>
+    <tr>
+      <th style="padding-left:10px;"><h5>Transaction ID</h5></th>
+      <th style="text-align:center;"><h5>Transaction Date</h5></th>
+      <th style="text-align:right;"><h5 style="white-space:nowrap;">Amount (HZ)</h5></th>
+      <?php if(isset($this->data['element']['extended']) &&
+        $this->data['element']['extended'] == true):?>
+      <?php endif; ?>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($this->data['transactions'] as $transaction): ?>
+    <tr>
+      <td><p style="text-align:left;"><a href="?page=transaction&id=<?=$transaction->transaction?>">
+          <?=$transaction->transaction?>
+          </a></p></td>
+      <td style="text-align:center;" title="<?=$transaction->time?>"><p style="white-space:nowrap;"><?=$transaction->time?></p></td>
+      <td style="text-align:right;"><p class="greentext">
+          <?=$transaction->amountNQT/100000000?>
+          <?php
+          if(isset($this->data['knownAddresses'][$transaction->sender])):
+            $senderTitle = $this->data['knownAddresses'][$transaction->sender];
+          else:
+            $senderTitle = $transaction->senderRS;
+          endif;
+          $sender = '<a href="?page=account&id='.$transaction->sender.'">'.$senderTitle.'</a>';
+          if(isset($this->data['knownAddresses'][$transaction->recipient])):
+            $recipientTitle = $this->data['knownAddresses'][$transaction->recipient];
+          else:
+            $recipientTitle = $transaction->recipientRS;
+          endif;
+          $recipient = '<a href="?page=account&id='.$transaction->recipient.'">'.$recipientTitle.'</a>';
+
+          if(strpos($sender,'bounty') !== false): ?>
+          <?php else: ?>
+          <?php endif; ?>
+        </p></td>
+
+
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>

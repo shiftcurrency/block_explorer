@@ -1,0 +1,12 @@
+<?php
+$i = 0;
+foreach($this->data['accounts'] as $account):
+  $i++;
+  $data[$i]['account'] = $account['id'];
+  if(isset($this->data['knownAddresses'][$account['id']])):
+    $data[$i]['title'] = $this->data['knownAddresses'][$account['id']];
+  endif;
+  $data[$i]['balance'] = $account['balance'];
+endforeach;
+
+echo json_encode($data);

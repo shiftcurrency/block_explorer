@@ -1,0 +1,11 @@
+<form class="form-horizontal" role="form" action="/?page=search" method="post">
+
+    <input type="text" name="search" class="form-control" id="searchInput" placeholder="Search for Account/Block/Transaction" />
+
+
+    <?php if($this->data['searchfailed']): ?>
+      <div class="error">Search failed</div>
+    <?php endif; ?>
+    <button type="submit" class="btn btn-primary">Search</button>
+
+</form>

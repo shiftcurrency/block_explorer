@@ -1,0 +1,6 @@
+| id | age | amount |<?php if(isset($this->data['element']['extended']) && $this->data['element']['extended'] == true): ?> fee |<?php endif; ?>
+
+<?php foreach($this->data['transactions'] as $transaction): ?>
+| <?=$transaction['id']?> | <?=$this->timeElapsed($transaction['time'])?> | <?=$transaction['amount']?> |<?php if(isset($this->data['element']['extended']) && $this->data['element']['extended'] == true): ?> <?=$transaction['fee']?> |<?php endif; ?>
+
+<?php endforeach; ?>

@@ -1,0 +1,61 @@
+<?php if(isset($this->data['element']['nodeResponse'])): ?>
+
+<table>
+
+  <tbody>
+    <tr>
+       <?php if($this->data['element']['nodeResponse'] == true): ?>
+      <td>Address: <?=$this->data['element']['nodeResponse']->announcedAddress?></td>
+    </tr>
+    <tr>
+      <td>Hallmark</td>
+      <td><?php if(isset($this->data['element']['nodeResponse']->hallmark) && !empty($this->data['element']['nodeResponse']->hallmark)): ?>
+        <span class="success">set</span> <a href="#" onclick="alert('<?=$this->data['element']['nodeResponse']->hallmark?>');">(show)</a>
+        <?php else: ?>
+        <span class="error">not set</span>
+        <?php endif; ?></td>
+    </tr>
+    <tr>
+      <td>Version</td>
+      <td><?=$this->data['element']['nodeResponse']->version?></td> 
+      <?php endif; ?>
+    </tr>
+  </tbody>
+</table>
+<table>
+  <tbody>
+    <?php if(empty($this->data['element']['apiResponse']->updated_at)): ?>
+    <tr>
+      <td colspan="2" style="text-align:center;"><h1 class="redtext">Node not detected yet</h1><p style="font-size:1.2em; font-weight:bold;">If this node is new then it might take a few hours for it to appear on the Horizon network, in which case, please check beck later.</p></td>
+    </tr>
+    <?php else: ?>
+    <tr>
+      <td colspan="2" style="text-align:center;"><h1>Node IP Address: <?=$this->data['element']['apiResponse']->ip_address?> (<?php
+            $offline = strtotime($this->data['element']['apiResponse']->last_offline);
+            $online = strtotime($this->data['element']['apiResponse']->last_online);
+            if($online > $offline):
+              echo '<span class="greentext">ONLINE</span>';
+            else:
+              echo '<span class="redtext">OFFLINE</span>';
+            endif;
+            ?>)</h1><p style="font-size:1.2em; font-weight:bold;">Last Checked:
+        <?=date('Y-m-d H:i:s',strtotime($this->data['element']['apiResponse']->updated_at))?> | Last Payout: <?=date('Y-m-d H:i:s',strtotime($this->data['element']['apiResponse']->last_payout))?><br />
+Total Uptime: <?=$this->data['element']['apiResponse']->full_uptime?> mins | Upime Until Next Payout: <?=1440 - ($this->data['element']['apiResponse']->full_uptime - $this->data['element']['apiResponse']->last_payout_uptime)?> mins<br /> 
+<!-- <?php if($this->data['element']['nodeResponse']->hallmark == $this->data['element']['apiResponse']->last_hallmark && isset($this->data['element']['nodeResponse']->hallmark)): ?>
+        <span class="success">correct</span>
+        <?php elseif(!isset($this->data['element']['nodeResponse']->hallmark)): ?>
+        <span class="error">Hallmark Not Submitted By Node</span>
+        <?php else: ?>
+        <span class="error">Hallmark Differs</span>
+        <?php endif; ?> -->
+        <a href="#" onclick="alert('<?=$this->data['element']['apiResponse']->last_hallmark?>');">Show hallmark</a>
+        </p></td>
+    </tr>
+    <?php endif; ?>
+  </tbody>
+</table>
+<?php elseif(!is_array($this->data['element'])): ?>
+<div class="error">Node
+  <?=$this->data['element']?>
+  didn't answer</div>
+<?php endif; ?>

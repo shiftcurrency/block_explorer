@@ -1,0 +1,86 @@
+
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#blockshome').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ASSET HERE" },
+		  "order": [[ 1, "desc" ]]
+    } );
+	$('#transactionshome').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH FOR AN ASSET HERE" },
+		 "language": {"info": "Sowing page _PAGE_ of _PAGES_" },
+		  "order": [[ 1, "desc" ]]
+    } );
+} );
+</script>
+
+<style>
+
+.dataTables_length, .dataTables_filter, .dataTables_info, .dataTables_paginate {display:none;}
+
+</style>
+
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Horizon Block Explorer</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Horizon Block Explorer</h1>
+    </div>
+    <p>Find the Horizon info you need.</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Horizon Block Explorer</h2>
+    </div>
+    <p>Find the Horizon info you need.</p>
+  </div>
+</section>
+<div class="container">
+  <div id="content" class="site-content" role="main">
+    <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+      <div class="entry-content">
+       <div class="su-row"><div class="su-column su-column-size-3-4">
+            <div class="su-column-inner su-clearfix">
+            
+            <div  style="border:0px solid #000; text-align:left; width:48%; float:left; margin-right:10px; padding-top:65px;">
+<h5 style="margin-top:10px; margin-bottom:0px;"><a type="button" class="btn btn-primary"  style=" width:100%" href="?page=blocks">Latest 10 Blocks - View All</a></h5><?=$this->element('blockhometable')?> <h5 style="margin-top:20px; margin-bottom:0px;"><a type="button" class="btn btn-primary" href="?page=blocks">View Blocks List</a></h5></div>
+            
+            <div  style="border:0px solid #000; text-align:right; width:48%; float:right; margin-left:10px;">
+<form class="form-horizontal" role="form" action="/?page=search" method="post">
+  <input type="text" name="search" class="homeSearch_filter" id="searchInput" placeholder="Search for Account/Block/Transaction" />
+  <?php if($this->data['searchfailed']): ?>
+  <div class="error">Search failed</div>
+  <?php endif; ?>
+  
+</form>  <h5 style="margin-top:10px; margin-bottom:0px;"><a type="button" class="btn btn-primary" style=" width:100%" href="?page=transactions">Latest 10 Transactions - View All</a></h5><?=$this->element('transactionhometable')?><h5 style="margin-top:20px; margin-bottom:0px;"><a type="button" class="btn btn-primary" href="?page=transactions">View Transactions List</a></h5></div>
+</div>
+          </div><div class="su-column su-column-size-1-4">
+            <div class="su-column-inner su-clearfix">
+<p class="dropcap">The Horizon block explorer makes it simple to keep track of transactions, block finding and more.</p><p>You can search directly for accounts, blocks and transactions or you can click the blue buttons to view the block and transacftion lists in full.</p>
+</div>
+          </div></div>
+
+    </article>
+    
+    <!-- #comments --> </div>
+  <!--/#content--> 
+</div>
+
+
+
+
+
+
+
+
+
+
+

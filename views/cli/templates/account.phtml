@@ -1,0 +1,45 @@
+Account:  <?=$this->data['id']?><?php if(isset($this->data['knownAddresses'][$this->data['id']])): ?> (<?=$this->data['knownAddresses'][$this->data['id']];?>)<?php endif; ?>
+
+| amount | sender | in/out | recipient | age | block |
+<?php foreach($this->data['transactions'] as $transaction):
+  $blockheight = null;
+  $img = 'in';
+  if(isset($this->data['knownAddresses'][$transaction['sender']])):
+    $senderTitle = $this->data['knownAddresses'][$transaction['sender']];
+  else:
+    $senderTitle = $transaction['sender'];
+  endif;
+  $sender = $transaction['sender'].' ('.$senderTitle.')';
+  if(isset($this->data['knownAddresses'][$transaction['recipient']])):
+    $recipientTitle = $this->data['knownAddresses'][$transaction['recipient']];
+  else:
+    $recipientTitle = $transaction['recipient'];
+  endif;
+  $recipient = $transaction['recipient']. ' ('.$recipientTitle.')';
+  if($transaction['sender'] == $this->data['id']):
+    $sender = $senderTitle;
+    $img = 'out';
+  else:
+    $recipient = $recipientTitle;
+  endif;
+
+  if(isset($transaction['height'])):
+      $sender = 'Forged block';
+  endif;
+
+  if(isset($transaction['height'])):
+    $blockheight = $transaction['height'];
+  else:
+    $blockheight = $transaction['block']['height'];
+  endif;
+  ?>
+
+  | <?php if(isset($transaction['height'])): ?><?=$transaction['totalfee']?><?php else: ?><?=$transaction['amount']?><?php endif; ?>HZ | <?=$sender?> | <?php if(strpos($sender,'bounty') !== false): ?>bounty <?php endif; ?><?=$img?> | <?=$recipient?> | <?=$this->timeElapsed($transaction['time'])?> ago | <?=$blockheight?> |<?php endforeach; ?>
+
+  Statistics
+  | Balance  | <?=number_format($this->data['balance']['balance'])?> HZ
+  | Received | <?=number_format($this->data['balance']['received'])?> HZ (<?=number_format($this->data['balance']['receivedtx']);?> transactions)
+  | Forged   | <?=number_format($this->data['balance']['forged'])?> HZ (<?=number_format($this->data['balance']['forgedblocks']);?>/<?=$this->data['balance']['totalforgedblocks']?> blocks)
+  | Sent     | <?=number_format($this->data['balance']['sent'])?> HZ (<?=number_format($this->data['balance']['senttx']);?> transactions)
+  | Fees     | <?=number_format($this->data['balance']['fees'])?> HZ
+

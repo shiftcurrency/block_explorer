@@ -1,0 +1,68 @@
+<?php
+if(isset($this->data['blocks'][49]) && $this->data['blocks'][49]->height != 0):
+  $last = $this->data['blocks'][49]->height - 1;
+  $button = '<a type="button" class="btn btn-primary" href="?page=blocks&height='.$last.'"><< earlier</a>';
+else:
+  $button = '<a type="button" class="btn btn-primary" href="?page=blocks"><< back</a>';
+endif;
+if(isset($_GET['height']) && $_GET['height'] < $this->data['lastBlockHeight']):
+  $next = $this->data['blocks'][0]->height + 50;
+  $button .= ' <a type="button" class="btn btn-primary" style="float: right;" href="?page=blocks&height='.$next.'">later >></a>';
+endif;
+?>
+<script type="text/javascript" language="javascript">
+
+
+$(document).ready(function() {
+    $('#blocks').DataTable( {
+		 "iDisplayLength": 5,
+		 "language": {"search": "", "sSearchPlaceholder": "SEARCH BLOCK INFO HERE" },
+		 "order": [[ 1, "desc" ]]
+    } );
+} );
+</script>
+
+<section id="title" class="alizarin" style="padding:0px;">
+  <div id="visible-phone-title" class="col-sm-12" style="text-align:center; margin-bottom:10px; padding:20px; padding-top:10px;">
+    <div class="titleh1">
+      <h2>Latest Blocks</h2>
+    </div>
+  </div>
+  <div id="visible-desktop-title" class="col-sm-12" style="text-align:center; margin-bottom:40px; padding:20px; padding-top:30px;">
+    <div class="titleh1">
+      <h1>Latest Blocks</h1>
+    </div>
+    <p>Watch the Horizon network grow.</p>
+  </div>
+  <div id="visible-tablet-title" class="col-sm-12" style="text-align:center; margin-bottom:80px; padding:20px; padding-top:40px;">
+    <div class="titleh1">
+      <h2>Latest Blocks</h2>
+    </div>
+    <p>Watch the Horizon network grow.</p>
+  </div>
+</section>
+<div class="container">
+<div id="content" class="site-content" role="main">
+  <article id="post-94" class="post-94 page type-page status-publish has-post-thumbnail hentry">
+    <div class="entry-content">
+      <div class="su-row">
+        <div class="su-column su-column-size-3-4">
+          <div class="su-column-inner su-clearfix" > <?php echo $this->element('blocktable'); ?> </div>
+        </div>
+        <div class="su-column su-column-size-1-4">
+          <div class="su-column-inner su-clearfix">
+            <table>
+              <tr>
+                <td><p class="dropcap">This page shows the latest blocks that have been found by Horizon users that are actively forging.</p>
+                  <p>To view a block in more detail, click on the <strong>HEIGHT</strong> number in the left column. You can also sort the information by using the controls at the top.</p><p>You can also view earlier and later blocks by clicking the buttons below.</p>
+                 <div style="margin-top:20px"><?=$button?></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div></div>
+
