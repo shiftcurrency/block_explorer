@@ -37,8 +37,10 @@
 
 	<p>
 		<h1>Supply</h1>
-		<?=number_format($this->data['supply'],0)?> SHF
+		<?=number_format($this->data['supply'],0)?> SHIFT
 		<h2>Network Hashrate</h2>
-		<?=number_format($this->data['hashrate'],0)?> H/s
+		<?=number_format($this->data['hashrate'],0)?> H/s || <?=number_format(($this->data['hashrate'])/1000,0)?> KH/s || <?=number_format(($this->data['hashrate'])/1000000,0)?> MH/s || <?=number_format(($this->data['hashrate'])/1000000000,3)?> GH/s
+		<h2>Network Difficulty</h2>
+		<?=number_format($this->data['difficulty'],0)?> H || <?=number_format(($this->data['difficulty'])/1000,0)?> KH || <?=number_format(($this->data['difficulty'])/1000000,0)?> MH || <?=number_format(($this->data['difficulty'])/1000000000,3)?> GH
 	</p>
 </div>
