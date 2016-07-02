@@ -71,6 +71,7 @@ class Controller
 
     $this->innerView->assign('hashrate', $this->model->getHashrate());
     $this->innerView->assign('supply', $this->model->getSupply());
+	$this->innerView->assign('difficulty', hexdec($latest['difficulty']));
     $this->innerView->assign('blocks', $blocks);
     return $this->innerView;
   }
@@ -273,7 +274,7 @@ class Controller
 
           if(substr($number,0,2) != '0x' && $number != 'latest')
           {
-          	if(is_int($number))
+          	if(is_numeric($number))
           	{
           		$number = dechex($number);
           	}
