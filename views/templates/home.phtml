@@ -34,7 +34,13 @@
 			</tbody>
 		</table>
 	</div>
+	<?php if((hexdec($block['number'])) > 9): ?>
+    <a href="?blockStart=<?=hexdec($block['number'])-1?>">Previous</a>
+	<?php endif; ?>
 
+	<?php if((hexdec($block['number'])) < ($this->data['latest'])-10): ?>
+    <a href="?blockStart=<?=hexdec($block['number'])+19?>">Next</a>
+	<?php endif; ?>
 	<p>
 		<h1>Supply</h1>
 		<?=number_format($this->data['supply'],0)?> SHIFT
