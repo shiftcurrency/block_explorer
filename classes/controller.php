@@ -139,7 +139,7 @@ class Controller
       return $this->transaction($tx['hash']);
     }
 
-    $address = $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($search));
+    $address = $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($search,'latest'));
     if($address > 0)
     {
       $this->innerView->setTemplate('address');
@@ -247,8 +247,8 @@ class Controller
 
     $address = array(
       'address' => substr($address,2),
-      'balance' => $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($address)) / 1000000000000000000,
-      'txCount' => hexdec($this->model->fromBlockchain($this->config['prefix'].'_getTransactionCount',array($address))),
+      'balance' => $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($address,'latest')) / 1000000000000000000,
+      'txCount' => hexdec($this->model->fromBlockchain($this->config['prefix'].'_getTransactionCount',array($address,'latest'))),
       'code'    => $this->model->fromBlockchain($this->config['prefix'].'_getCode',array($address))
     );
     $this->innerView->assign('address',$address);
