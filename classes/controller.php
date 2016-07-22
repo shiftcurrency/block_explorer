@@ -54,12 +54,19 @@ class Controller
     return $this->view->loadLayout();
   }
 
-  public function home($search = null)
+  public function home($search = null, $blockStart = null)
   {
+	$latestBlockNumber = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
+	$latestBlockNumber = hexdec($latestBlockNumber['number']);
     if(!$search)
     {
-      $latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
-      for($i = 1; $i < 11; $i++)
+	
+	  if(isset($blockStart)) 
+		$latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array($blockStart,false));
+	  else
+		$latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
+	  
+	  for($i = 1; $i < 11; $i++)
       {
       	$latest['miner'] = substr($latest['miner'],2);
         $blocks[] = $latest;
@@ -69,6 +76,7 @@ class Controller
       return $this->search($search);
     }
 
+	$this->innerView->assign('latest', $latestBlockNumber);
     $this->innerView->assign('hashrate', $this->model->getHashrate());
     $this->innerView->assign('supply', $this->model->getSupply());
 	$this->innerView->assign('difficulty', hexdec($latest['difficulty']));
@@ -337,8 +345,17 @@ class Controller
         {
           $search = trim($this->request['searchFor']);
         }
-
-        $this->innerView = $this->home($search);
+		
+		$blockStart = null;
+		$latestBlockNumber = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
+		$latestBlockNumber = hexdec($latestBlockNumber['number']);
+		if(isset($this->request['blockStart']))
+        {
+          $blockStart = intVal(trim($this->request['blockStart']));
+		  if(!is_numeric($blockStart) || $blockStart <9 || $blockStart > $latestBlockNumber) $blockStart = null;
+        }
+		
+        $this->innerView = $this->home($search,$blockStart);
         break;
     }
   }
