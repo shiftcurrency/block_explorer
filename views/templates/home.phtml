@@ -20,7 +20,7 @@
 							</a>
 						</td>
 						<td>
-							<?=date('Y-m-d H:i:s',$block['timestamp'])?> UTC
+							<?=date('Y-m-d H:i:s',hexdec($block['timestamp']))?> UTC
 						</td>
 						<td><?=count($block['transactions'])?></td>
 						<td><?=hexdec($block['gasUsed'])?></td>

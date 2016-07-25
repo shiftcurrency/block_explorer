@@ -41,10 +41,14 @@ class Model
 
 		if(!empty($error))
 		{
-			return $error;
+			//return $error; //turned off untill better curl search filter
 		}
 
-		return json_decode($result,true)['result'];
+		$decodedResult = json_decode($result,true);
+		if (array_key_exists('result', $decodedResult)) {
+			$finalResult = $decodedResult['result'];
+			return $finalResult;
+		}
 	}
 
 
@@ -58,30 +62,32 @@ class Model
 	public function getSupply()
 	{
 		$blockNumber = $this->fromBlockchain($this->config['prefix'].'_blockNumber');
-		$supply      = 6651571;
-		$supply += $blockNumber * 2;
+		$supply = 7837571; // 6651571+(593000*2)
+		$supply += (hexdec($blockNumber) - 593000);
 		
 		return $supply;
 	}
 
-
 	public function getHashrate($blocks = 25)
 	{
-		$latestBlock = $this->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
-		$totalDiff = $latestBlock['difficulty'];
+		$latestBlock = $this->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',true));
+		$totalDiff = hexdec($latestBlock['difficulty']);
+		$currentTime = hexdec($latestBlock['timestamp']);
 		$totalTime = 0;
 		for($i = 1; $i < $blocks; $i++)
 		{
-			$checkBlock = $this->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array($latestBlock['number'] - $i,false));
-			$totalDiff += $checkBlock['difficulty'];
+			$hexBlock = hexdec($latestBlock['number']) - $i;
+			$checkBlock = $this->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array("0x".dechex($hexBlock),false));
+			$totalDiff += hexdec($checkBlock['difficulty']);
+			$totalTime += ($currentTime - hexdec($checkBlock['timestamp']));
+			$currentTime = hexdec($checkBlock['timestamp']);
 		}
-
-		$blockTime = ($latestBlock['timestamp'] - $checkBlock['timestamp']) / $blocks;
+		
+		$blockTime = $totalTime / $blocks;
 		$avgDiff = $totalDiff / $blocks;
 		$hashrate = $avgDiff / $blockTime;
 		return $hashrate;
 	}
-
 
 	public function hex2str($hex)
 	{

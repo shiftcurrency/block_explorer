@@ -60,12 +60,11 @@ class Controller
 	$latestBlockNumber = hexdec($latestBlockNumber['number']);
     if(!$search)
     {
-	
-	  if(isset($blockStart)) 
-		$latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array($blockStart,false));
-	  else
-		$latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
-	  
+	  if(isset($blockStart)) {
+		  $latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array($blockStart,false));
+	  }else{
+		  $latest = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array('latest',false));
+	  }	  
 	  for($i = 1; $i < 11; $i++)
       {
       	$latest['miner'] = substr($latest['miner'],2);
@@ -118,14 +117,14 @@ class Controller
 
     if(substr($search, 0, 2) != '0x')
     {
-    	if(is_numeric($search))
-    	{
-    		$search = '0x'.dechex($search);
-    	}
-    	else
-    	{
-    		$search = '0x'.$search;
-    	}
+      if(is_numeric($search))
+      {
+        $search = '0x'.dechex($search);
+      }
+      else
+      {
+        $search = '0x'.$search;
+      }
     }
 
     $block = $this->model->fromBlockchain($this->config['prefix'].'_getBlockByNumber',array($search,false));
@@ -148,7 +147,7 @@ class Controller
     }
 
     $address = $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($search,'latest'));
-    if($address > 0)
+    if(hexdec($address) > 0)
     {
       $this->innerView->setTemplate('address');
       return $this->address($search);
@@ -168,7 +167,7 @@ class Controller
 
 	$block['dataFromHex'] = utf8_encode($this->model->hex2str($block['extraData']));
 	$currentBlock         = $this->model->fromBlockchain($this->config['prefix'].'_blockNumber');
-	$block['conf']        = $currentBlock - $block['number'].' Confirmations';
+	$block['conf']        = hexdec($currentBlock) - hexdec($block['number']).' Confirmations';
 	$block['miner']       = substr($block['miner'],2);
 	$block['extraData']   = substr($block['extraData'],2);
 	$block['hash']        = substr($block['hash'],2);
@@ -183,7 +182,7 @@ class Controller
 
     foreach($block['transactions'] as $key=>$transaction)
     {
-		$block['transactions'][$key]['ethValue']    = $transaction['value'] / 1000000000000000000;
+		$block['transactions'][$key]['ethValue']    = hexdec($transaction['value']) / 1000000000000000000;
 		$block['transactions'][$key]['hash']        = substr($transaction['hash'],2);
 		$block['transactions'][$key]['from']        = substr($transaction['from'],2);
 		$block['transactions'][$key]['to']          = substr($transaction['to'],2);
@@ -216,7 +215,7 @@ class Controller
       $transaction['blockNumber'] = 'pending';
       $transaction['conf']        = 'pending';
     } else {
-      $transaction['conf'] = $this->model->fromBlockchain($this->config['prefix'].'_blockNumber') - $transaction['blockNumber'];
+      $transaction['conf'] = hexdec($this->model->fromBlockchain($this->config['prefix'].'_blockNumber')) - hexdec($transaction['blockNumber']);
       if($transaction['conf'] == 0)
       {
         $transaction['conf'] = 'unconfirmed';
@@ -230,8 +229,8 @@ class Controller
 
     }
 
-	$transaction['ethValue']    = $transaction['value'] / 1000000000000000000;
-	$transaction['txprice']     = ($transaction['gas'] * $transaction['gasPrice']) / 1000000000000000000;
+	$transaction['ethValue']    = hexdec($transaction['value']) / 1000000000000000000;
+	$transaction['txprice']     = (hexdec($transaction['gas']) * hexdec($transaction['gasPrice'])) / 1000000000000000000;
 	$transaction['hash']        = substr($transaction['hash'],2);
 	$transaction['from']        = substr($transaction['from'],2);
 	$transaction['to']          = substr($transaction['to'],2);
@@ -239,7 +238,7 @@ class Controller
 	$transaction['blockNumber'] = hexdec($transaction['blockNumber']);
 	$transaction['gas']         = hexdec($transaction['gas']);
 	$transaction['nonce']       = hexdec($transaction['nonce']);
-	$transaction['input']        = $this->model->hex2str($transaction['input']);
+	$transaction['input']       = $this->model->hex2str($transaction['input']);
 
     $this->innerView->assign('tx',$transaction);
     return $this->innerView;
@@ -255,7 +254,7 @@ class Controller
 
     $address = array(
       'address' => substr($address,2),
-      'balance' => $this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($address,'latest')) / 1000000000000000000,
+      'balance' => hexdec($this->model->fromBlockchain($this->config['prefix'].'_getBalance',array($address,'latest'))) / 1000000000000000000,
       'txCount' => hexdec($this->model->fromBlockchain($this->config['prefix'].'_getTransactionCount',array($address,'latest'))),
       'code'    => $this->model->fromBlockchain($this->config['prefix'].'_getCode',array($address))
     );
@@ -351,7 +350,7 @@ class Controller
 		$latestBlockNumber = hexdec($latestBlockNumber['number']);
 		if(isset($this->request['blockStart']))
         {
-          $blockStart = intVal(trim($this->request['blockStart']));
+          $blockStart = intval(trim($this->request['blockStart']));
 		  if(!is_numeric($blockStart) || $blockStart <9 || $blockStart > $latestBlockNumber) $blockStart = null;
         }
 		
