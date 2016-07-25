@@ -41,7 +41,7 @@
             <tr>
                 <td>Received Time</td>
                 <td>
-                    <?=date('Y-m-d H:i:s',$this->data['tx']['time'])?>
+                    <?=date('Y-m-d H:i:s',hexdec($this->data['tx']['time']))?>
                 </td>
             </tr>
             <tr>
@@ -56,7 +56,7 @@
             </tr>
             <tr>
                 <td>Nrg Price</td>
-                <td><?=number_format($this->data['tx']['gasPrice'],0)?> WEI</td>
+                <td><?=number_format(hexdec($this->data['tx']['gasPrice']),0)?> WEI</td>
             </tr>
             <tr>
                 <td>Number of transactions made by the sender prior to this one</td>
